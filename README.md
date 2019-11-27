@@ -5,9 +5,7 @@ Tyler Ouellette's thesis for Endicott College 2020.
      "http://www.w3.org/TR/html4/transitional.dtd">
 <html>
 <head>
-
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-  <title></title>
   <meta name="generator" content="LibreOffice 5.2.7.2 (Linux)"/>
   <meta name="created" content="00:00:00"/>
   <meta name="changed" content="00:00:00"/>
