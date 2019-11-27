@@ -1,0 +1,93 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+//https://www.youtube.com/watch?time_continue=102&v=_nRzoTzeyxU
+public class DialogueManager : MonoBehaviour
+{
+    public Canvas dialogueUI;
+    public Button acceptButton;
+    public Button declineButton;
+    public Button advanceTextButton;
+    public Text nameText;
+    public Text dialogueText;
+
+    private NPCQuestManager npcQuestManager;
+
+    private Queue<string> sentences;
+    void Start()
+    {
+        dialogueUI.enabled = false;
+        sentences = new Queue<string>();
+    }
+
+    public void StartDialogue(Dialogue dialogue)
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        dialogueUI.enabled = true;
+        nameText.text = dialogue.name;
+
+        ButtonVisibilityToggle(false, 1, 0, Color.black, Color.clear);
+
+        sentences.Clear();
+
+        foreach(string sentence in dialogue.sentences)
+        {
+            sentences.Enqueue(sentence);
+        }
+        DisplayNextSentence();
+    }
+
+    public void DisplayNextSentence()
+    {
+        if(sentences.Count == 0)
+        {
+            EndDialogue();
+            return;
+        }
+        if(sentences.Count == 1)
+        {
+            ButtonVisibilityToggle(true, 0, 1, Color.clear, Color.black);
+        }
+        string sentence = sentences.Dequeue();
+        dialogueText.text = sentence;
+    }
+
+    public void EndDialogue()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        dialogueUI.enabled = false;
+    }
+
+    public void AcceptButtonClicked()
+    {
+        Quest acceptedQuest = npcQuestManager.getTempCurrentQuest();
+        acceptedQuest.setAccepted(true);
+        WaffleQuestController.addQuestToList(acceptedQuest);
+        EndDialogue();
+    }
+
+    private void ButtonVisibilityToggle(bool visibility, int advanceTextAlpha, int acceptDeclineAlpha, Color advanceColor, Color acceptDeclineColor)
+    {
+        advanceTextButton.enabled = !visibility;
+        advanceTextButton.GetComponentInChildren<CanvasRenderer>().SetAlpha(advanceTextAlpha);
+        advanceTextButton.GetComponentInChildren<Text>().color = advanceColor;
+
+        acceptButton.enabled = visibility;
+        acceptButton.GetComponentInChildren<CanvasRenderer>().SetAlpha(acceptDeclineAlpha);
+        acceptButton.GetComponentInChildren<Text>().color = acceptDeclineColor;
+
+        declineButton.enabled = visibility;
+        declineButton.GetComponentInChildren<CanvasRenderer>().SetAlpha(acceptDeclineAlpha);
+        declineButton.GetComponentInChildren<Text>().color = acceptDeclineColor;
+    }
+
+    public void setNPCQuestManager(NPCQuestManager npcQuestManager)
+    {
+        this.npcQuestManager = npcQuestManager;
+    }
+}
