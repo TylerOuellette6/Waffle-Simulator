@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 // https://answers.unity.com/questions/1401917/third-person-character-rotation-with-mouse.html
-// Test
 public class RotateCharacterWithCamera : MonoBehaviour
 {
     public float mouseSpeed = 3;
