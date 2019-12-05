@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
     public Canvas questUI;
+    public Canvas inventoryUI;
 
     Rigidbody rigidbody;
     CharacterController characterController;
@@ -12,6 +13,7 @@ public class PlayerControls : MonoBehaviour
     public float gravity = 20.0f;
 
     private bool questUIVisible;
+    private bool inventoryUIVisible;
 
     Vector3 moveDirection = Vector3.zero;
 
@@ -20,6 +22,9 @@ public class PlayerControls : MonoBehaviour
     {
         questUI.enabled = false;
         questUIVisible = false;
+
+        inventoryUI.enabled = false;
+        inventoryUIVisible = false;
 
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.freezeRotation = true;
@@ -80,7 +85,7 @@ public class PlayerControls : MonoBehaviour
             rigidbody.AddForce(new Vector3(0.0f, 4.0f, 0.0f), ForceMode.Impulse);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && !inventoryUIVisible)
         {
             Cursor.visible = !questUIVisible;
             if (questUIVisible)
@@ -93,6 +98,21 @@ public class PlayerControls : MonoBehaviour
             }
             questUI.enabled = !questUIVisible;
             questUIVisible = !questUIVisible;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && !questUIVisible)
+        {
+            Cursor.visible = !inventoryUIVisible;
+            if (inventoryUIVisible)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            inventoryUI.enabled = !inventoryUIVisible;
+            inventoryUIVisible = !inventoryUIVisible;
         }
 
     }

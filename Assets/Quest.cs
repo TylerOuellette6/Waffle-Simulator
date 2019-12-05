@@ -6,6 +6,7 @@ using UnityEngine;
 public class Quest
 {
     public Dialogue questDialogue;
+    public GameObject npc;
     public string questName;
     private bool completed;
     private bool accepted;
@@ -22,6 +23,11 @@ public class Quest
     public bool getCompleted()
     {
         return completed;
+    }
+
+    public GameObject getNPC()
+    {
+        return this.npc;
     }
 
     public void setCompleted(bool completed)

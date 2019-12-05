@@ -38,7 +38,7 @@ public class InventoryItemBehavior : MonoBehaviour
     public void HandleItemPickup()
     {
         pressFToPickUp.enabled = false;
-        WaffleInventoryManager.addItemToInventory(inventoryObj);
         Destroy(inventoryObj);
+        WaffleInventoryManager.addItemToInventory(inventoryObj);
     }
 }

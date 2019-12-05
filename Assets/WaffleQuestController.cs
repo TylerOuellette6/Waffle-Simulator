@@ -36,7 +36,7 @@ public class WaffleQuestController : MonoBehaviour
         GameObject tempQuestButton = (GameObject)Instantiate(buttonPrefab);
         tempQuestButton.transform.SetParent(questPanel.transform);
         tempQuestButton.transform.localPosition = new Vector3(0, questButtonYPosition, 0);
-        tempQuestButton.transform.GetChild(0).GetComponent<Text>().text = newQuest.questName;
+        tempQuestButton.transform.GetChild(0).GetComponent<Text>().text = newQuest.getNPC().name + ": " + newQuest.questName;
 
         Button questButton = tempQuestButton.GetComponent<Button>();
         questButton.onClick.AddListener(() => QuestButtonClicked(newQuest));
@@ -48,7 +48,7 @@ public class WaffleQuestController : MonoBehaviour
     {
         questDescriptionUI.enabled = true;
         questDescriptionText.text = quest.questDescription;
-        questDescriptionTitleText.text = quest.questName;
+        questDescriptionTitleText.text = quest.getNPC().name + ": " + quest.questName;
         Debug.Log(quest.questName);
     }
 
