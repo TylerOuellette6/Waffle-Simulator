@@ -15,6 +15,8 @@ public class DialogueManager : MonoBehaviour
 
     private NPCQuestManager npcQuestManager;
 
+    private Quest quest;
+
     private Queue<string> sentences;
     void Start()
     {
@@ -22,22 +24,35 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Quest quest)
     {
+        this.quest = quest;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
         dialogueUI.enabled = true;
-        nameText.text = dialogue.name;
+        nameText.text = quest.getNPC().name;
 
         ButtonVisibilityToggle(false, 1, 0, Color.black, Color.clear);
 
         sentences.Clear();
-
-        foreach(string sentence in dialogue.sentences)
+        if (!quest.getConditionMetForCompletion())
         {
-            sentences.Enqueue(sentence);
+            foreach (string sentence in quest.getQuestDialogue().sentences)
+            {
+                sentences.Enqueue(sentence);
+            }
+        } 
+
+        if(quest.getConditionMetForCompletion()){
+            sentences.Clear();
+            foreach (string sentence in quest.getQuestCompleteDialogue().sentences)
+            {
+                sentences.Enqueue(sentence);
+            }
+            quest.setCompleted(true);
         }
+        
         DisplayNextSentence();
     }
 
@@ -48,7 +63,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-        if(sentences.Count == 1)
+        if(sentences.Count == 1 && !this.quest.getConditionMetForCompletion())
         {
             ButtonVisibilityToggle(true, 0, 1, Color.clear, Color.black);
         }
@@ -58,6 +73,10 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        if (this.quest.getCompleted())
+        {
+            WaffleQuestController.completeQuest(quest);
+        }
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         dialogueUI.enabled = false;

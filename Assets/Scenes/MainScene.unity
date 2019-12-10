@@ -745,7 +745,7 @@ RectTransform:
   m_Children:
   - {fileID: 284254707}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1117,14 +1117,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quests:
   - questDialogue:
-      name: Cube
       sentences:
-      - Hello, I am a cube.
-      - I like being a cube.
-      - Goodbye, I am still a cube.
+      - Hello, I am Cube.
+      - I would really like to eat an orange.
+      - Can you please bring me an orange?
+    questCompleteDialogue:
+      sentences:
+      - Thank you for my orange!
     npc: {fileID: 264919253}
-    questName: Quest One
-    questDescription: Complete the first quest.
+    objectNeededForCompletion: {fileID: 1410773751}
+    questName: NEED ORANGE
+    questDescription: 'Please, please, please bring me an orange. '
 --- !u!1 &274191791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1646,7 @@ Transform:
   - {fileID: 1645682582}
   - {fileID: 274191792}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &344020909
 GameObject:
@@ -2708,7 +2711,7 @@ Transform:
   - {fileID: 451577711}
   - {fileID: 1848749518}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &556912236
 GameObject:
@@ -3736,6 +3739,145 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752520035}
   m_CullTransparentMesh: 0
+--- !u!1 &761648411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761648418}
+  - component: {fileID: 761648417}
+  - component: {fileID: 761648416}
+  - component: {fileID: 761648415}
+  - component: {fileID: 761648414}
+  - component: {fileID: 761648413}
+  - component: {fileID: 761648412}
+  m_Layer: 0
+  m_Name: Apple
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &761648412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b633447487b6c439d1df1a36adb0fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectSprite: {fileID: 21300000, guid: 0d9b8ef1d0559da4caf11d6ba80220a1, type: 3}
+--- !u!114 &761648413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e40bd2b7bfab34ebab7f152c3d650f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressFToPickUp: {fileID: 1462905959}
+  inventoryObj: {fileID: 761648411}
+  playerObj: {fileID: 590834380}
+--- !u!54 &761648414
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &761648415
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &761648416
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9cddef3ccdc05ae4ea6277b838ac71ec, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &761648417
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &761648418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761648411}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -536.19, y: 1.25, z: 45.76}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &798045900
 GameObject:
   m_ObjectHideFlags: 0
@@ -4818,7 +4960,7 @@ Transform:
   - {fileID: 190588064}
   - {fileID: 1462905962}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1066346522
 GameObject:
@@ -7273,12 +7415,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quests:
   - questDialogue:
-      name: ebuc
       sentences:
-      - "backwards\t"
-      - cube
-      - 'end '
+      - Hello, I am Ebuc, the backwards cube.
+      - I would really like to eat an apple.
+      - Coule you please bring me an apple?
+    questCompleteDialogue:
+      sentences:
+      - Thank you for my apple!
     npc: {fileID: 1795005370}
+    objectNeededForCompletion: {fileID: 761648411}
     questName: Quest Two
     questDescription: Complete the second quest.
 --- !u!114 &1795005372
@@ -8000,7 +8145,7 @@ Transform:
   - {fileID: 2010688063}
   - {fileID: 1964766253}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1931016746
 PrefabInstance:

@@ -6,11 +6,13 @@ using UnityEngine;
 public class Quest
 {
     public Dialogue questDialogue;
+    public Dialogue questCompleteDialogue;
     public GameObject npc;
+    public GameObject objectNeededForCompletion;
     public string questName;
     private bool completed;
     private bool accepted;
-    private bool conditionMetForCompletion;
+    private bool conditionMetForCompletion = false;
 
     [TextArea(3, 10)]
     public string questDescription;
@@ -18,6 +20,11 @@ public class Quest
     public Dialogue getQuestDialogue()
     {
         return questDialogue;
+    }
+
+    public Dialogue getQuestCompleteDialogue()
+    {
+        return questCompleteDialogue;
     }
 
     public bool getCompleted()
@@ -53,5 +60,10 @@ public class Quest
     public void setConditionMetForCompletion(bool conditionMetForCompletion)
     {
         this.conditionMetForCompletion = conditionMetForCompletion;
+    }
+
+    public GameObject getObjectNeededForCompletion()
+    {
+        return this.objectNeededForCompletion;
     }
 }

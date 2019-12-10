@@ -49,11 +49,26 @@ public class WaffleQuestController : MonoBehaviour
         questDescriptionUI.enabled = true;
         questDescriptionText.text = quest.questDescription;
         questDescriptionTitleText.text = quest.getNPC().name + ": " + quest.questName;
-        Debug.Log(quest.questName);
     }
 
     public void closeQuestDescriptionUI()
     {
         questDescriptionUI.enabled = false;
+    }
+
+    public static void checkIfItemCompletesQuest(GameObject newInventoryItem)
+    {
+        foreach (Quest quest in startedQuests)
+        {
+            if(quest.getObjectNeededForCompletion() == newInventoryItem)
+            {
+                quest.setConditionMetForCompletion(true);
+            }
+        }
+    }
+
+    public static void completeQuest(Quest completedQuest)
+    {
+        WaffleInventoryManager.removeInventoryItem(completedQuest.getObjectNeededForCompletion());
     }
 }
