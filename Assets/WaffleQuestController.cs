@@ -69,6 +69,6 @@ public class WaffleQuestController : MonoBehaviour
 
     public static void completeQuest(Quest completedQuest)
     {
-        WaffleInventoryManager.removeInventoryItem(completedQuest.getObjectNeededForCompletion());
+        WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion());
     }
 }

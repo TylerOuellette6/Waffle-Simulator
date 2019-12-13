@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class WaffleInventoryManager : MonoBehaviour
 {
+    private static GameObject playerObj;
+
     private static List<GameObject> inventoryItems;
     private static List<GameObject> inventoryUIItems;
 
@@ -23,6 +25,7 @@ public class WaffleInventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerObj = GameObject.Find("Waffle");
         inventoryItems = new List<GameObject>();
         inventoryUIItems = new List<GameObject>();
 
@@ -38,16 +41,7 @@ public class WaffleInventoryManager : MonoBehaviour
         inventoryItems.Add(newInventoryItem);
         //updateInventoryUI();
 
-        GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
-        tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
-        tempInventoryItemUI.transform.localPosition = new Vector3(
-            temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
-        //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = newInventoryItem.GetComponent<SpriteMask>().sprite;
-        tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = newInventoryItem.name;
-
-        inventoryUIItems.Add(tempInventoryItemUI);
-
-        temporaryInventoryItemXPosition += 175;
+        createInventoryItemPrefab(newInventoryItem);
     }
 
     private static void updateInventoryUI()
@@ -59,15 +53,24 @@ public class WaffleInventoryManager : MonoBehaviour
         inventoryUIItems.Clear();
         foreach(GameObject inventoryItem in inventoryItems)
         {
-            GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
-            tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
-            tempInventoryItemUI.transform.localPosition = new Vector3(
-                temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
-            //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
-            tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
-
-            temporaryInventoryItemXPosition += xPosMovementConst;
+            createInventoryItemPrefab(inventoryItem);
         }
+    }
+
+    private static void createInventoryItemPrefab(GameObject inventoryItem)
+    {
+        GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
+        tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
+        tempInventoryItemUI.transform.localPosition = new Vector3(
+            temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
+        //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
+        tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
+        Button removeInventoryItemBtn = tempInventoryItemUI.GetComponentInChildren<Button>();
+        removeInventoryItemBtn.onClick.AddListener(delegate { removeInventoryItem(tempInventoryItemUI);});
+
+        inventoryUIItems.Add(tempInventoryItemUI);
+
+        temporaryInventoryItemXPosition += xPosMovementConst;
     }
 
     public static int getNumInventoryItems()
@@ -75,7 +78,33 @@ public class WaffleInventoryManager : MonoBehaviour
         return numInventoryItems;
     }
 
-    public static void removeInventoryItem(GameObject inventoryItemToRemove)
+    private static void removeInventoryItem(GameObject inventoryUIItemToRemove)
+    {
+        string itemName = inventoryUIItemToRemove.GetComponentInChildren<Text>().text;
+        int indexToRemove = -1;
+        for(int i = 0; i < inventoryUIItems.Count; i++)
+        {
+            if(inventoryUIItems[i] == inventoryUIItemToRemove)
+            {
+                indexToRemove = i;
+            }
+        }
+
+        Vector3 playerPosition = playerObj.transform.position;
+
+        GameObject itemToRemove = inventoryItems[indexToRemove];
+        itemToRemove.transform.position = playerPosition + new Vector3 (5, 0, 5);
+        itemToRemove.SetActive(true);
+
+        inventoryItems.Remove(itemToRemove);
+        temporaryInventoryItemXPosition = -300;
+        updateInventoryUI();
+
+        Debug.Log(indexToRemove);
+
+    }
+
+    public static void removeInventoryItemAfterQuest(GameObject inventoryItemToRemove)
     {
         if (inventoryItems.Contains(inventoryItemToRemove))
         {
