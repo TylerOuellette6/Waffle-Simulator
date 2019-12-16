@@ -38,8 +38,7 @@ public class InventoryItemBehavior : MonoBehaviour
     public void HandleItemPickup()
     {
         pressFToPickUp.enabled = false;
-        inventoryObj.SetActive(false);
-        WaffleInventoryManager.addItemToInventory(inventoryObj);
+        WaffleInventoryManager.addTempItemToInventory(inventoryObj);
         WaffleQuestController.checkIfItemCompletesQuest(inventoryObj);
     }
 }

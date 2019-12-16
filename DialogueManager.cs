@@ -73,7 +73,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        if (this.quest.getCompleted())
+        if (this.quest != null && this.quest.getCompleted())
         {
             WaffleQuestController.completeQuest(quest);
         }

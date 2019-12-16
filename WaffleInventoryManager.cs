@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +21,7 @@ public class WaffleInventoryManager : MonoBehaviour
 
     private static GameObject singleInventoryItemPrefab;
     private static GameObject inventoryPanel;
-
-    private static int numInventoryItems = 0;
+    private static Canvas inventoryFullErrorUI;
 
     // Start is called before the first frame update
     void Start()
@@ -31,17 +32,24 @@ public class WaffleInventoryManager : MonoBehaviour
 
         singleInventoryItemPrefab = (GameObject)Resources.Load(
             "prefabs/SingleInventoryItemUIPrefab", typeof(GameObject));
-        inventoryPanel = GameObject.Find("InventoryPanel"); 
+        inventoryPanel = GameObject.Find("InventoryPanel");
+        inventoryFullErrorUI = GameObject.Find("InventoryFullErrorUI").GetComponent<Canvas>();
+        inventoryFullErrorUI.enabled = false;
     }
 
-    public static void addItemToInventory(GameObject newInventoryItem)
+    public static async void addTempItemToInventory(GameObject newInventoryItem)
     {
-        numInventoryItems++;
-
-        inventoryItems.Add(newInventoryItem);
-        //updateInventoryUI();
-
-        createInventoryItemPrefab(newInventoryItem);
+        if (inventoryItems.Count >= 8)
+        {
+            inventoryFullErrorUI.enabled = true;
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            inventoryFullErrorUI.enabled = false;
+        } else
+        {
+            newInventoryItem.SetActive(false);
+            inventoryItems.Add(newInventoryItem);
+            updateInventoryUI();
+        }
     }
 
     private static void updateInventoryUI()
@@ -51,9 +59,20 @@ public class WaffleInventoryManager : MonoBehaviour
             Destroy(inventoryUIItem);
         }
         inventoryUIItems.Clear();
-        foreach(GameObject inventoryItem in inventoryItems)
+        for(int i = 0; i < inventoryItems.Count; i++)
         {
-            createInventoryItemPrefab(inventoryItem);
+            if(i >= 4)
+            {
+                temporaryInventoryItemYPosition = -285;
+            } else
+            {
+                temporaryInventoryItemYPosition = -115;
+            }
+            if (i == 4 || i == 0)
+            {
+                temporaryInventoryItemXPosition = -300;
+            }
+            createInventoryItemPrefab(inventoryItems[i]);
         }
     }
 
@@ -71,11 +90,6 @@ public class WaffleInventoryManager : MonoBehaviour
         inventoryUIItems.Add(tempInventoryItemUI);
 
         temporaryInventoryItemXPosition += xPosMovementConst;
-    }
-
-    public static int getNumInventoryItems()
-    {
-        return numInventoryItems;
     }
 
     private static void removeInventoryItem(GameObject inventoryUIItemToRemove)
