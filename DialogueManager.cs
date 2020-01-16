@@ -76,6 +76,7 @@ public class DialogueManager : MonoBehaviour
         if (this.quest != null && this.quest.getCompleted())
         {
             WaffleQuestController.completeQuest(quest);
+            this.quest = null;
         }
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

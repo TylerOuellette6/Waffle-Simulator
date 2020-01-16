@@ -118,14 +118,23 @@ public class WaffleInventoryManager : MonoBehaviour
 
     }
 
-    public static void removeInventoryItemAfterQuest(GameObject inventoryItemToRemove)
+    public static void removeInventoryItemAfterQuest(String inventoryItemToRemoveName)
     {
-        if (inventoryItems.Contains(inventoryItemToRemove))
+        foreach(GameObject inventoryItem in inventoryItems)
         {
-            inventoryItems.Remove(inventoryItemToRemove);
-            Destroy(inventoryItemToRemove);
-            temporaryInventoryItemXPosition = -300;
-            updateInventoryUI();
+            if (inventoryItem.name.Equals(inventoryItemToRemoveName))
+            {
+                inventoryItems.Remove(inventoryItem);
+                Destroy(inventoryItem);
+                temporaryInventoryItemXPosition = -300;
+                updateInventoryUI();
+                return;
+            }
         }
+    }
+
+    public static List<GameObject> getInventoryItemList()
+    {
+        return WaffleInventoryManager.inventoryItems;
     }
 }

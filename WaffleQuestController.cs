@@ -13,7 +13,7 @@ public class WaffleQuestController : MonoBehaviour
     private static Canvas questDescriptionUI;
     private static Text questDescriptionText;
     private static Text questDescriptionTitleText;
-    // Start is called before the first frame update
+
     void Start()
     {
         buttonPrefab = (GameObject)Resources.Load("prefabs/QuestButtonPrefab", typeof(GameObject));
@@ -42,6 +42,16 @@ public class WaffleQuestController : MonoBehaviour
         questButton.onClick.AddListener(() => QuestButtonClicked(newQuest));
 
         questButtonYPosition -= 40;
+
+        if (WaffleInventoryManager.getInventoryItemList().Contains(newQuest.getObjectNeededForCompletion())){
+            foreach(Quest tempQuest in startedQuests)
+            {
+                if(tempQuest == newQuest)
+                {
+                    tempQuest.setConditionMetForCompletion(true);
+                }
+            }
+        }
     }
 
     private static void QuestButtonClicked(Quest quest)
@@ -60,7 +70,7 @@ public class WaffleQuestController : MonoBehaviour
     {
         foreach (Quest quest in startedQuests)
         {
-            if(quest.getObjectNeededForCompletion() == newInventoryItem)
+            if(quest.getObjectNeededForCompletion().name == newInventoryItem.name)
             {
                 quest.setConditionMetForCompletion(true);
             }
@@ -69,6 +79,7 @@ public class WaffleQuestController : MonoBehaviour
 
     public static void completeQuest(Quest completedQuest)
     {
-        WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion());
+        Debug.Log("ACTUAL complete function");
+        WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
     }
 }
