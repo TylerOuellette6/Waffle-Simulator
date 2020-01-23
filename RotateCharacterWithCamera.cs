@@ -24,7 +24,7 @@ public class RotateCharacterWithCamera : MonoBehaviour
         //this.rotation = new Vector3(0, -X, 0);
         //this.transform.Rotate(this.rotation);
 
-        player.Rotate(0, 0, -X);
+        //player.Rotate(0, 0, -X);
         if (camera.transform.eulerAngles.x + (-Y) > 80 &&
             camera.transform.eulerAngles.x + (-Y) < 280)
         {
