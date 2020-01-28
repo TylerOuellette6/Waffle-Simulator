@@ -42,16 +42,20 @@ public class WaffleQuestController : MonoBehaviour
         questButton.onClick.AddListener(() => QuestButtonClicked(newQuest));
 
         questButtonYPosition -= 40;
-
-        if (WaffleInventoryManager.getInventoryItemList().Contains(newQuest.getObjectNeededForCompletion())){
-            foreach(Quest tempQuest in startedQuests)
+        foreach(GameObject inventoryItem in WaffleInventoryManager.getInventoryItemList())
+        {
+            if (inventoryItem.name == newQuest.getObjectNeededForCompletion().name)
             {
-                if(tempQuest == newQuest)
+                foreach (Quest tempQuest in startedQuests)
                 {
-                    tempQuest.setConditionMetForCompletion(true);
+                    if (tempQuest == newQuest)
+                    {
+                        tempQuest.setConditionMetForCompletion(true);
+                    }
                 }
             }
         }
+        
     }
 
     private static void QuestButtonClicked(Quest quest)
@@ -79,7 +83,6 @@ public class WaffleQuestController : MonoBehaviour
 
     public static void completeQuest(Quest completedQuest)
     {
-        Debug.Log("ACTUAL complete function");
         WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
     }
 }

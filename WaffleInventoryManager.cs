@@ -113,9 +113,6 @@ public class WaffleInventoryManager : MonoBehaviour
         inventoryItems.Remove(itemToRemove);
         temporaryInventoryItemXPosition = -300;
         updateInventoryUI();
-
-        Debug.Log(indexToRemove);
-
     }
 
     public static void removeInventoryItemAfterQuest(String inventoryItemToRemoveName)
