@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
         if (body == null || body.isKinematic)
             return;
         Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        body.velocity = pushDir * pushPower;
+        body.AddForce(pushDir * pushPower, ForceMode.Impulse);
+        //body.velocity = (pushDir * pushPower);
     }
 
     void Update()
