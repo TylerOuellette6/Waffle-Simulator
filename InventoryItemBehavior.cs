@@ -38,7 +38,16 @@ public class InventoryItemBehavior : MonoBehaviour
     public void HandleItemPickup()
     {
         pressFToPickUp.enabled = false;
-        WaffleInventoryManager.addTempItemToInventory(inventoryObj);
+        InventoryItem item = inventoryObj.GetComponent<InventoryItem>();
+        bool permanent = item.isPermanentItem;
+        if (permanent)
+        {
+            WaffleInventoryManager.addPermanentItemToInventory(inventoryObj);
+        }
+        else
+        {
+            WaffleInventoryManager.addTempItemToInventory(inventoryObj);
+        }
         WaffleQuestController.checkIfItemCompletesQuest(inventoryObj);
     }
 }

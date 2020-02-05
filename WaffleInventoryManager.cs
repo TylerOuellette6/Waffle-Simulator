@@ -12,6 +12,9 @@ public class WaffleInventoryManager : MonoBehaviour
     private static List<GameObject> inventoryItems;
     private static List<GameObject> inventoryUIItems;
 
+    private static List<GameObject> permanentItems;
+    private static List<GameObject> permanentUIItems;
+
     private static int permanentInventoryItemXPosition = -300;
     private static int permanentInventoryItemYPosition = 115;
     private static int temporaryInventoryItemXPosition = -300;
@@ -20,6 +23,7 @@ public class WaffleInventoryManager : MonoBehaviour
     private static int xPosMovementConst = 175;
 
     private static GameObject singleInventoryItemPrefab;
+    private static GameObject singlePermanentInventoryItemPrefab;
     private static GameObject inventoryPanel;
     private static Canvas inventoryFullErrorUI;
 
@@ -30,8 +34,13 @@ public class WaffleInventoryManager : MonoBehaviour
         inventoryItems = new List<GameObject>();
         inventoryUIItems = new List<GameObject>();
 
+        permanentItems = new List<GameObject>();
+        permanentUIItems = new List<GameObject>();
+
         singleInventoryItemPrefab = (GameObject)Resources.Load(
             "prefabs/SingleInventoryItemUIPrefab", typeof(GameObject));
+        singlePermanentInventoryItemPrefab = (GameObject)Resources.Load(
+            "prefabs/SinglePermanentInventoryItemUIPrefab", typeof(GameObject));
         inventoryPanel = GameObject.Find("InventoryPanel");
         inventoryFullErrorUI = GameObject.Find("InventoryFullErrorUI").GetComponent<Canvas>();
         inventoryFullErrorUI.enabled = false;
@@ -46,50 +55,92 @@ public class WaffleInventoryManager : MonoBehaviour
             inventoryFullErrorUI.enabled = false;
         } else
         {
-            newInventoryItem.SetActive(false);
             inventoryItems.Add(newInventoryItem);
-            updateInventoryUI();
+            newInventoryItem.SetActive(false);
+            updateInventoryUI(false);
         }
     }
 
-    private static void updateInventoryUI()
+    public static void addPermanentItemToInventory(GameObject newInventoryItem)
     {
-        foreach(GameObject inventoryUIItem in inventoryUIItems)
-        {
-            Destroy(inventoryUIItem);
-        }
-        inventoryUIItems.Clear();
-        for(int i = 0; i < inventoryItems.Count; i++)
-        {
-            if(i >= 4)
-            {
-                temporaryInventoryItemYPosition = -285;
-            } else
-            {
-                temporaryInventoryItemYPosition = -115;
-            }
-            if (i == 4 || i == 0)
-            {
-                temporaryInventoryItemXPosition = -300;
-            }
-            createInventoryItemPrefab(inventoryItems[i]);
-        }
+        permanentItems.Add(newInventoryItem);
+        newInventoryItem.SetActive(false);
+        updateInventoryUI(true);
     }
 
-    private static void createInventoryItemPrefab(GameObject inventoryItem)
+    private static void updateInventoryUI(bool permanent)
     {
-        GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
-        tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
-        tempInventoryItemUI.transform.localPosition = new Vector3(
-            temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
-        //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
-        tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
-        Button removeInventoryItemBtn = tempInventoryItemUI.GetComponentInChildren<Button>();
-        removeInventoryItemBtn.onClick.AddListener(delegate { removeInventoryItem(tempInventoryItemUI);});
+        if (!permanent)
+        {
+            foreach (GameObject inventoryUIItem in inventoryUIItems)
+            {
+                Destroy(inventoryUIItem);
+            }
+            inventoryUIItems.Clear();
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                if (i >= 4)
+                {
+                    temporaryInventoryItemYPosition = -285;
+                }
+                else
+                {
+                    temporaryInventoryItemYPosition = -115;
+                }
+                if (i == 4 || i == 0)
+                {
+                    temporaryInventoryItemXPosition = -300;
+                }
+                createInventoryItemPrefab(inventoryItems[i], permanent);
+            }
+        }
+        else
+        {
+            permanentInventoryItemXPosition = -300;
+            foreach (GameObject permanentUIItem in permanentUIItems)
+            {
+                Destroy(permanentUIItem);
+            }
+            inventoryUIItems.Clear();
+            for (int i = 0; i < permanentItems.Count; i++)
+            {
+                createInventoryItemPrefab(permanentItems[i], permanent);
+            }
+        }
+        
+    }
 
-        inventoryUIItems.Add(tempInventoryItemUI);
+    private static void createInventoryItemPrefab(GameObject inventoryItem, bool permanent)
+    {
+        if (!permanent)
+        {
+            GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
+            tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
+            tempInventoryItemUI.transform.localPosition = new Vector3(
+                temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
+            //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
+            tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
+            Button removeInventoryItemBtn = tempInventoryItemUI.GetComponentInChildren<Button>();
+            removeInventoryItemBtn.onClick.AddListener(delegate { removeInventoryItem(tempInventoryItemUI); });
 
-        temporaryInventoryItemXPosition += xPosMovementConst;
+            inventoryUIItems.Add(tempInventoryItemUI);
+
+            temporaryInventoryItemXPosition += xPosMovementConst;
+        }
+        else
+        {
+            GameObject permanentItemUI = (GameObject)Instantiate(singlePermanentInventoryItemPrefab);
+            permanentItemUI.transform.SetParent(inventoryPanel.transform);
+            permanentItemUI.transform.localPosition = new Vector3(
+                permanentInventoryItemXPosition, permanentInventoryItemYPosition, 0);
+            //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
+            permanentItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
+
+            permanentUIItems.Add(permanentItemUI);
+
+            permanentInventoryItemXPosition += xPosMovementConst;
+        }
+        
     }
 
     private static void removeInventoryItem(GameObject inventoryUIItemToRemove)
@@ -112,7 +163,9 @@ public class WaffleInventoryManager : MonoBehaviour
 
         inventoryItems.Remove(itemToRemove);
         temporaryInventoryItemXPosition = -300;
-        updateInventoryUI();
+        InventoryItem item = itemToRemove.GetComponent<InventoryItem>();
+        bool permanent = item.isPermanentItem;
+        updateInventoryUI(permanent);
     }
 
     public static void removeInventoryItemAfterQuest(String inventoryItemToRemoveName)
@@ -124,7 +177,9 @@ public class WaffleInventoryManager : MonoBehaviour
                 inventoryItems.Remove(inventoryItem);
                 Destroy(inventoryItem);
                 temporaryInventoryItemXPosition = -300;
-                updateInventoryUI();
+                InventoryItem item = inventoryItem.GetComponent<InventoryItem>();
+                bool permanent = item.isPermanentItem;
+                updateInventoryUI(permanent);
                 return;
             }
         }

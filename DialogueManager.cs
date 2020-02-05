@@ -68,7 +68,18 @@ public class DialogueManager : MonoBehaviour
             ButtonVisibilityToggle(true, 0, 1, Color.clear, Color.black);
         }
         string sentence = sentences.Dequeue();
-        dialogueText.text = sentence;
+        StopAllCoroutines();
+        StartCoroutine(typeSentence(sentence));
+    }
+
+    IEnumerator typeSentence(string sentence)
+    {
+        dialogueText.text = "";
+        foreach(char letter in sentence.ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return null;
+        }
     }
 
     public void EndDialogue()
