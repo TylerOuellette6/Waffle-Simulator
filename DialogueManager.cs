@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour
     public Button advanceTextButton;
     public Text nameText;
     public Text dialogueText;
+    public GameObject camera;
 
     private NPCQuestManager npcQuestManager;
 
@@ -26,6 +27,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Quest quest)
     {
+        camera.GetComponent<ThirdPersonCamera>().enabled = false;
         this.quest = quest;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -92,6 +94,7 @@ public class DialogueManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         dialogueUI.enabled = false;
+        camera.GetComponent<ThirdPersonCamera>().enabled = true;
     }
 
     public void AcceptButtonClicked()

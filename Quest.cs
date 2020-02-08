@@ -10,6 +10,11 @@ public class Quest
     public GameObject npc;
     public GameObject objectNeededForCompletion;
     public string questName;
+
+    public int newXPos;
+    public int newYPos;
+    public int newZPos;
+
     private bool completed;
     private bool accepted;
     private bool conditionMetForCompletion = false;

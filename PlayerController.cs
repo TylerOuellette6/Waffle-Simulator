@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     float currentSpeed;
     float velocityY;
 
+    public GameObject camera;
+
     Transform cameraT;
     CharacterController controller;
 
@@ -67,10 +69,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && !inventoryUIVisible)
         {
             Cursor.visible = !questUIVisible;
-            if (questUIVisible)
+            if (questUIVisible) { 
                 Cursor.lockState = CursorLockMode.Locked;
+                camera.GetComponent<ThirdPersonCamera>().enabled = true;
+                this.GetComponent<CharacterController>().enabled = true;
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.None;
+                camera.GetComponent<ThirdPersonCamera>().enabled = false;
+                this.GetComponent<CharacterController>().enabled = false;
+            }
+
             questUI.enabled = !questUIVisible;
             questUIVisible = !questUIVisible;
         }
@@ -79,9 +89,17 @@ public class PlayerController : MonoBehaviour
         {
             Cursor.visible = !inventoryUIVisible;
             if (inventoryUIVisible)
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+                camera.GetComponent<ThirdPersonCamera>().enabled = true;
+                this.GetComponent<CharacterController>().enabled = true;
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.None;
+                camera.GetComponent<ThirdPersonCamera>().enabled = false;
+                this.GetComponent<CharacterController>().enabled = false;
+            }
             inventoryUI.enabled = !inventoryUIVisible;
             inventoryUIVisible = !inventoryUIVisible;
         }

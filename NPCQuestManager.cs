@@ -21,4 +21,11 @@ public class NPCQuestManager : MonoBehaviour
     {
         return tempCurrentQuest;
     }
+
+    public static void moveNPCAfterQuest(Quest quest)
+    {
+        GameObject npcObject = quest.getNPC();
+        // Move based on the x, y, and z constants that are provided by Quest class
+        //npcObject.transform.Translate(new Vector3(1, 0, 5), Space.World);
+    }
 }

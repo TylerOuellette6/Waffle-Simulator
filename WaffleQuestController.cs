@@ -44,18 +44,26 @@ public class WaffleQuestController : MonoBehaviour
         questButtonYPosition -= 40;
         foreach(GameObject inventoryItem in WaffleInventoryManager.getInventoryItemList())
         {
-            if (inventoryItem.name == newQuest.getObjectNeededForCompletion().name)
+            checkIfInventoryContainsItemNeededForCompletion(inventoryItem, newQuest);
+        }
+        foreach(GameObject permenentItem in WaffleInventoryManager.getPermanentItemList())
+        {
+            checkIfInventoryContainsItemNeededForCompletion(permenentItem, newQuest);
+        }
+    }
+
+    private static void checkIfInventoryContainsItemNeededForCompletion(GameObject inventoryItem, Quest newQuest)
+    {
+        if (inventoryItem.name == newQuest.getObjectNeededForCompletion().name)
+        {
+            foreach (Quest tempQuest in startedQuests)
             {
-                foreach (Quest tempQuest in startedQuests)
+                if (tempQuest == newQuest)
                 {
-                    if (tempQuest == newQuest)
-                    {
-                        tempQuest.setConditionMetForCompletion(true);
-                    }
+                    tempQuest.setConditionMetForCompletion(true);
                 }
             }
         }
-        
     }
 
     private static void QuestButtonClicked(Quest quest)
@@ -84,5 +92,6 @@ public class WaffleQuestController : MonoBehaviour
     public static void completeQuest(Quest completedQuest)
     {
         WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
+        NPCQuestManager.moveNPCAfterQuest(completedQuest);
     }
 }

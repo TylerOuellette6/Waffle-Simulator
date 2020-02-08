@@ -189,4 +189,9 @@ public class WaffleInventoryManager : MonoBehaviour
     {
         return WaffleInventoryManager.inventoryItems;
     }
+
+    public static List<GameObject> getPermanentItemList()
+    {
+        return WaffleInventoryManager.permanentItems;
+    }
 }
