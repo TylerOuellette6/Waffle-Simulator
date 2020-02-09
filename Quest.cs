@@ -71,4 +71,19 @@ public class Quest
     {
         return this.objectNeededForCompletion;
     }
+
+    public int getNewXPos()
+    {
+        return this.newXPos;
+    }
+
+    public int getNewYPos()
+    {
+        return this.newYPos;
+    }
+
+    public int getNewZPos()
+    {
+        return this.newZPos;
+    }
 }
