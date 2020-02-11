@@ -7,11 +7,7 @@ public class PancakeTextureController : MonoBehaviour
     public NPCQuestManager pancakeQuestManager;
     public GameObject wholePancakeTexture;
     public GameObject pancakeTextureMissingPiece;
-
-    void Start()
-    {
-
-    }
+    public GameObject missingPancakePiece;
 
     // Update is called once per frame
     void Update()
@@ -24,6 +20,7 @@ public class PancakeTextureController : MonoBehaviour
             {
                 wholePancakeTexture.SetActive(false);
                 pancakeTextureMissingPiece.SetActive(true);
+                missingPancakePiece.SetActive(true);
             }
             else
             {

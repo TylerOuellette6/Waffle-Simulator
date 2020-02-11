@@ -54,7 +54,7 @@ public class WaffleQuestController : MonoBehaviour
 
     private static void checkIfInventoryContainsItemNeededForCompletion(GameObject inventoryItem, Quest newQuest)
     {
-        if (inventoryItem.name == newQuest.getObjectNeededForCompletion().name)
+        if (newQuest.getObjectNeededForCompletion() != null && inventoryItem.name == newQuest.getObjectNeededForCompletion().name)
         {
             foreach (Quest tempQuest in startedQuests)
             {
@@ -91,7 +91,10 @@ public class WaffleQuestController : MonoBehaviour
 
     public static void completeQuest(Quest completedQuest)
     {
-        WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
+        if(completedQuest.getObjectNeededForCompletion() != null)
+        {
+            WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
+        }
         NPCQuestManager.moveNPCAfterQuest(completedQuest);
     }
 }
