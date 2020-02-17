@@ -6,4 +6,5 @@ using UnityEngine;
 public class InventoryItem : MonoBehaviour
 {
     public bool isPermanentItem;
+    public Sprite image;
 }

@@ -11,9 +11,9 @@ public class Quest
     public GameObject objectNeededForCompletion;
     public string questName;
 
-    public int newXPos;
-    public int newYPos;
-    public int newZPos;
+    public float newXPos;
+    public float newYPos;
+    public float newZPos;
 
     private bool completed;
     private bool accepted;
@@ -72,17 +72,17 @@ public class Quest
         return this.objectNeededForCompletion;
     }
 
-    public int getNewXPos()
+    public float getNewXPos()
     {
         return this.newXPos;
     }
 
-    public int getNewYPos()
+    public float getNewYPos()
     {
         return this.newYPos;
     }
 
-    public int getNewZPos()
+    public float getNewZPos()
     {
         return this.newZPos;
     }

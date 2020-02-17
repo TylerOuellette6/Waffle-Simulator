@@ -11,9 +11,12 @@ public class DialogueTrigger : MonoBehaviour
     public DialogueManager dialogueManager;
 
     private bool nearNPC;
+    private float triggerDist = 10.0f;
+    private DogPatrolMovement dogMovementScript;
 
     private void Start()
     {
+        dogMovementScript = GetComponentInParent<DogPatrolMovement>();
         GameObject tempCanvas = GameObject.Find("PressButtonToTalkUI");
         if(tempCanvas != null)
         {
@@ -25,12 +28,16 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if ((npcObj.transform.position - playerObj.transform.position).magnitude < 5.0f && !nearNPC)
+        if (npcObj.name.Equals("Dog"))
+        {
+            triggerDist = 25.0f;
+        }
+        if ((npcObj.transform.position - playerObj.transform.position).magnitude < triggerDist && !nearNPC)
         {
             pressFToTalkUI.enabled = true;
             nearNPC = true;
         }
-        if((npcObj.transform.position - playerObj.transform.position).magnitude > 5.0f && nearNPC)
+        if((npcObj.transform.position - playerObj.transform.position).magnitude > triggerDist && nearNPC)
         {
             pressFToTalkUI.enabled = false;
             nearNPC = false;
@@ -44,6 +51,12 @@ public class DialogueTrigger : MonoBehaviour
 
     private void TriggerDialogue()
     {
+        if(dogMovementScript != null)
+        {
+            Debug.Log("Dog");
+            Debug.Log(npcObj.GetComponent<DogPatrolMovement>());
+            npcObj.GetComponent<DogPatrolMovement>().enabled = false;
+        }
         dialogueManager.setNPCQuestManager(npcQuestManager);
         pressFToTalkUI.enabled = false;
         List<Quest> quests = npcQuestManager.getQuests();
@@ -65,6 +78,10 @@ public class DialogueTrigger : MonoBehaviour
 
     private void EndDialogue()
     {
+        if (dogMovementScript != null)
+        {
+            npcObj.GetComponent<DogPatrolMovement>().enabled = true;
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         FindObjectOfType<DialogueManager>().EndDialogue();

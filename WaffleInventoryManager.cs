@@ -116,9 +116,8 @@ public class WaffleInventoryManager : MonoBehaviour
         {
             GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
             tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
-            tempInventoryItemUI.transform.localPosition = new Vector3(
-                temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
-            //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
+            tempInventoryItemUI.transform.localPosition = new Vector3(temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
+            tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<InventoryItem>().image;
             tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
             Button removeInventoryItemBtn = tempInventoryItemUI.GetComponentInChildren<Button>();
             removeInventoryItemBtn.onClick.AddListener(delegate { removeInventoryItem(tempInventoryItemUI); });
@@ -131,8 +130,7 @@ public class WaffleInventoryManager : MonoBehaviour
         {
             GameObject permanentItemUI = (GameObject)Instantiate(singlePermanentInventoryItemPrefab);
             permanentItemUI.transform.SetParent(inventoryPanel.transform);
-            permanentItemUI.transform.localPosition = new Vector3(
-                permanentInventoryItemXPosition, permanentInventoryItemYPosition, 0);
+            permanentItemUI.transform.localPosition = new Vector3(permanentInventoryItemXPosition, permanentInventoryItemYPosition, 0);
             //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
             permanentItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
 
