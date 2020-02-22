@@ -9,6 +9,7 @@ public class DogPatrolMovement : MonoBehaviour
     public int[] rotations;
     private int destPoint = 0;
     public GameObject dog;
+    private bool heWalkin = true;
 
     private void Start()
     {
@@ -18,7 +19,7 @@ public class DogPatrolMovement : MonoBehaviour
     }
     public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)
     {
-        while (true)
+        while (heWalkin)
         {
             float elapsedTime = 0;
             Vector3 startingPos = points[destPoint].position;
@@ -29,9 +30,15 @@ public class DogPatrolMovement : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
             objectToMove.transform.position = end;
+            Debug.Log(dog.GetComponent<NPCQuestManager>().getTempCurrentQuest());
             destPoint = (destPoint >= 6 ? 0 : destPoint + 1) % points.Length;
             dog.transform.rotation = Quaternion.Euler(0, rotations[destPoint >= 5 ? rotations.Length - 1 : destPoint], 0);
             end = points[destPoint + 1].position;
         }
+    }
+
+    public void setHeWalkin(bool heWalkin)
+    {
+        this.heWalkin = heWalkin;
     }
 }

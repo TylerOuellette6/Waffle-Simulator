@@ -15,6 +15,8 @@ public class Quest
     public float newYPos;
     public float newZPos;
 
+    public float newYRotation;
+
     private bool completed;
     private bool accepted;
     private bool conditionMetForCompletion = false;
@@ -85,5 +87,10 @@ public class Quest
     public float getNewZPos()
     {
         return this.newZPos;
+    }
+
+    public float getNewYRotation()
+    {
+        return this.newYRotation;
     }
 }

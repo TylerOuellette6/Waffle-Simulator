@@ -26,6 +26,8 @@ public class NPCQuestManager : MonoBehaviour
     {
         GameObject npcObject = quest.getNPC();
         // Move based on the x, y, and z constants that are provided by Quest class
-        npcObject.transform.Translate(new Vector3(quest.getNewXPos(), quest.getNewYPos(), quest.getNewZPos()), Space.World);
+        npcObject.transform.position = new Vector3(quest.getNewXPos(), quest.getNewYPos(), quest.getNewZPos());
+        // Rotate based on the new y constant that is provided by the Quest class
+        npcObject.transform.rotation = Quaternion.Euler(0, quest.getNewYRotation(), 0);
     }
 }

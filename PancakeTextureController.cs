@@ -9,6 +9,8 @@ public class PancakeTextureController : MonoBehaviour
     public GameObject pancakeTextureMissingPiece;
     public GameObject missingPancakePiece;
 
+    private bool hasPieceBeenShown = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -19,7 +21,7 @@ public class PancakeTextureController : MonoBehaviour
             (currentQuest.questName.Equals("Missing Piece") && !currentQuest.getCompleted()))
             {
                 wholePancakeTexture.SetActive(false);
-                pancakeTextureMissingPiece.SetActive(true);
+                showPancakePiece();
                 missingPancakePiece.SetActive(true);
             }
             else
@@ -29,5 +31,14 @@ public class PancakeTextureController : MonoBehaviour
             }
         }
         
+    }
+
+    private void showPancakePiece()
+    {
+        if (!hasPieceBeenShown)
+        {
+            pancakeTextureMissingPiece.SetActive(true);
+            hasPieceBeenShown = true;
+        }
     }
 }

@@ -53,8 +53,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if(dogMovementScript != null)
         {
-            Debug.Log("Dog");
-            Debug.Log(npcObj.GetComponent<DogPatrolMovement>());
+            //npcObj.GetComponent<DogPatrolMovement>().setHeWalkin(false);
             npcObj.GetComponent<DogPatrolMovement>().enabled = false;
         }
         dialogueManager.setNPCQuestManager(npcQuestManager);
@@ -81,6 +80,7 @@ public class DialogueTrigger : MonoBehaviour
         if (dogMovementScript != null)
         {
             npcObj.GetComponent<DogPatrolMovement>().enabled = true;
+            npcObj.GetComponent<DogPatrolMovement>().setHeWalkin(true);
         }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
