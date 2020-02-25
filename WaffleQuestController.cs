@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class WaffleQuestController : MonoBehaviour
 {
     private static List<Quest> startedQuests;
+    private static List<Quest> finishedQuests;
     private static int questButtonYPosition = 310;
 
     private static GameObject buttonPrefab;
@@ -27,6 +28,7 @@ public class WaffleQuestController : MonoBehaviour
         questDescriptionTitleText = GameObject.Find("QuestDescriptionTitleText").GetComponent<Text>();
 
         startedQuests = new List<Quest>();
+        finishedQuests = new List<Quest>();
     }
 
     public static void addQuestToList(Quest newQuest)
@@ -96,5 +98,7 @@ public class WaffleQuestController : MonoBehaviour
             WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
         }
         NPCQuestManager.moveNPCAfterQuest(completedQuest);
+        finishedQuests.Add(completedQuest);
+        startedQuests.Remove(completedQuest);
     }
 }

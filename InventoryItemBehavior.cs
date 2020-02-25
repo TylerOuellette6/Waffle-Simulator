@@ -19,12 +19,12 @@ public class InventoryItemBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((inventoryObj.transform.position - playerObj.transform.position).magnitude < 7.0f && !nearInventoryObj)
+        if((inventoryObj.transform.position - playerObj.transform.position).magnitude < 10.0f && !nearInventoryObj)
         {
             pressFToPickUp.enabled = true;
             nearInventoryObj = true;
         }
-        if((inventoryObj.transform.position - playerObj.transform.position).magnitude > 7.0f && nearInventoryObj)
+        if((inventoryObj.transform.position - playerObj.transform.position).magnitude > 10.0f && nearInventoryObj)
         {
             pressFToPickUp.enabled = false;
             nearInventoryObj = false;
