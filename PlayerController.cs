@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     private bool questUIVisible;
     private bool inventoryUIVisible;
 
-    public float walkSpeed = 2;
-    public float runSpeed = 6;
+    public float walkSpeed = 25;
+    public static float runSpeed = 25;
     public float gravity = -12;
     public float jumpHeight = 1;
     [Range(0, 1)]
@@ -150,5 +150,10 @@ public class PlayerController : MonoBehaviour
             return float.MaxValue;
         }
         return smoothTime / airControlPercent;
+    }
+
+    public static void setRunSpeed()
+    {
+        PlayerController.runSpeed = 50;
     }
 }
