@@ -37,7 +37,7 @@ public class DialogueTrigger : MonoBehaviour
             pressFToTalkUI.enabled = true;
             nearNPC = true;
         }
-        if((npcObj.transform.position - playerObj.transform.position).magnitude > triggerDist && nearNPC)
+        if((npcObj.transform.position - playerObj.transform.position).magnitude > triggerDist && nearNPC && !npcObj.name.Equals("Dog"))
         {
             pressFToTalkUI.enabled = false;
             nearNPC = false;
@@ -51,11 +51,6 @@ public class DialogueTrigger : MonoBehaviour
 
     private void TriggerDialogue()
     {
-        if(dogMovementScript != null)
-        {
-            //npcObj.GetComponent<DogPatrolMovement>().setHeWalkin(false);
-            npcObj.GetComponent<DogPatrolMovement>().enabled = false;
-        }
         dialogueManager.setNPCQuestManager(npcQuestManager);
         pressFToTalkUI.enabled = false;
         List<Quest> quests = npcQuestManager.getQuests();
@@ -77,11 +72,6 @@ public class DialogueTrigger : MonoBehaviour
 
     private void EndDialogue()
     {
-        if (dogMovementScript != null)
-        {
-            npcObj.GetComponent<DogPatrolMovement>().enabled = true;
-            npcObj.GetComponent<DogPatrolMovement>().setHeWalkin(true);
-        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         FindObjectOfType<DialogueManager>().EndDialogue();

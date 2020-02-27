@@ -45,7 +45,7 @@ public class InventoryItemBehavior : MonoBehaviour
             WaffleInventoryManager.addPermanentItemToInventory(inventoryObj);
             if (inventoryObj.name.Equals("Super Speed Powerup"))
             {
-                PlayerController.setRunSpeed();
+                PowerupController.receiveSuperSpeedPowerup();
             }
         }
         else

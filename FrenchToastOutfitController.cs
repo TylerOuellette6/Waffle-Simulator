@@ -6,6 +6,7 @@ public class FrenchToastOutfitController : MonoBehaviour
 {
     public NPCQuestManager frenchToastQuestManager;
     public GameObject frenchToastNPC;
+    private bool hasPowerupBeenGiven = false;
 
     void Update()
     {
@@ -26,8 +27,8 @@ public class FrenchToastOutfitController : MonoBehaviour
             {
                 Transform mustache = frenchToastNPC.transform.Find("Mustache");
                 mustache.gameObject.SetActive(true);
+                PowerupController.showSuperJumpPowerup();
             }
         }
-        
     }
 }

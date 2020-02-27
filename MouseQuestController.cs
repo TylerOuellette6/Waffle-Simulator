@@ -24,7 +24,7 @@ public class MouseQuestController : MonoBehaviour
             }
             if(currentQuest.questName.Equals("Desire for Donut") && currentQuest.getCompleted())
             {
-                showPowerupOnce();
+                PowerupController.showSuperSpeedPowerup();
             }
         }
     }
@@ -36,15 +36,5 @@ public class MouseQuestController : MonoBehaviour
             mouseNPC.transform.localScale += new Vector3(50, 0, 50);
         }
         grown = true;
-    }
-
-    private void showPowerupOnce()
-    {
-        if (!hasPowerupBeenGiven)
-        {
-            Transform superSpeedPowerup = mouseNPC.transform.Find("Super Speed Powerup");
-            superSpeedPowerup.gameObject.SetActive(true);
-        }
-        hasPowerupBeenGiven = true;
     }
 }
