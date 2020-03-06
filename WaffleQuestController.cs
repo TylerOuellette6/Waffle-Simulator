@@ -7,25 +7,12 @@ public class WaffleQuestController : MonoBehaviour
 {
     private static List<Quest> startedQuests;
     private static List<Quest> finishedQuests;
-    private static int questButtonYPosition = 310;
-
-    private static GameObject buttonPrefab;
-    private static GameObject questPanel;
     private static Canvas questDescriptionUI;
-    private static Text questDescriptionText;
-    private static Text questDescriptionTitleText;
 
     void Start()
     {
-        buttonPrefab = (GameObject)Resources.Load("prefabs/QuestButtonPrefab", typeof(GameObject));
-        questPanel = GameObject.Find("QuestPanel");
-
         GameObject tempQuestDescriptionUI = GameObject.Find("QuestDescriptionUI");
         questDescriptionUI = tempQuestDescriptionUI.GetComponent<Canvas>();
-        questDescriptionUI.enabled = false;
-
-        questDescriptionText = GameObject.Find("QuestDescriptionText").GetComponent<Text>();
-        questDescriptionTitleText = GameObject.Find("QuestDescriptionTitleText").GetComponent<Text>();
 
         startedQuests = new List<Quest>();
         finishedQuests = new List<Quest>();
@@ -35,20 +22,13 @@ public class WaffleQuestController : MonoBehaviour
     {
         startedQuests.Add(newQuest);
 
-        GameObject tempQuestButton = (GameObject)Instantiate(buttonPrefab);
-        tempQuestButton.transform.SetParent(questPanel.transform);
-        tempQuestButton.transform.localPosition = new Vector3(0, questButtonYPosition, 0);
-        tempQuestButton.transform.GetChild(0).GetComponent<Text>().text = newQuest.getNPC().name + ": " + newQuest.questName;
+        IncompleteQuestUIManager.updateScrollList(startedQuests);
 
-        Button questButton = tempQuestButton.GetComponent<Button>();
-        questButton.onClick.AddListener(() => QuestButtonClicked(newQuest));
-
-        questButtonYPosition -= 40;
-        foreach(GameObject inventoryItem in WaffleInventoryManager.getInventoryItemList())
+        foreach (GameObject inventoryItem in WaffleInventoryManager.getInventoryItemList())
         {
             checkIfInventoryContainsItemNeededForCompletion(inventoryItem, newQuest);
         }
-        foreach(GameObject permenentItem in WaffleInventoryManager.getPermanentItemList())
+        foreach (GameObject permenentItem in WaffleInventoryManager.getPermanentItemList())
         {
             checkIfInventoryContainsItemNeededForCompletion(permenentItem, newQuest);
         }
@@ -66,13 +46,6 @@ public class WaffleQuestController : MonoBehaviour
                 }
             }
         }
-    }
-
-    private static void QuestButtonClicked(Quest quest)
-    {
-        questDescriptionUI.enabled = true;
-        questDescriptionText.text = quest.questDescription;
-        questDescriptionTitleText.text = quest.getNPC().name + ": " + quest.questName;
     }
 
     public void closeQuestDescriptionUI()
@@ -100,5 +73,7 @@ public class WaffleQuestController : MonoBehaviour
         NPCQuestManager.moveNPCAfterQuest(completedQuest);
         finishedQuests.Add(completedQuest);
         startedQuests.Remove(completedQuest);
+        IncompleteQuestUIManager.updateScrollList(startedQuests);
+        CompleteQuestUIManager.updateScrollList(finishedQuests);
     }
 }

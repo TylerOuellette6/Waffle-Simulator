@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
     // CREDIT TO: https://github.com/SebLague/Blender-to-Unity-Character-Creation
     public Canvas questUI;
     public Canvas inventoryUI;
+    public Canvas pauseUI;
     private bool questUIVisible;
     private bool inventoryUIVisible;
+    private static bool pauseUIVisible;
 
     public float walkSpeed = 25;
     public float runSpeed = 50; // SET TO 25 WHEN DONE WITH TESTING
@@ -34,11 +36,9 @@ public class PlayerController : MonoBehaviour
         cameraT = Camera.main.transform;
         controller = GetComponent<CharacterController>();
 
-        questUI.enabled = false;
         questUIVisible = false;
-
-        inventoryUI.enabled = false;
         inventoryUIVisible = false;
+        pauseUIVisible = false;
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -70,19 +70,37 @@ public class PlayerController : MonoBehaviour
         {
             Cursor.visible = !questUIVisible;
             if (questUIVisible) { 
-                Cursor.lockState = CursorLockMode.Locked;
-                camera.GetComponent<ThirdPersonCamera>().enabled = true;
-                this.GetComponent<CharacterController>().enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;  
             }
             else
             {
                 Cursor.lockState = CursorLockMode.None;
-                camera.GetComponent<ThirdPersonCamera>().enabled = false;
-                this.GetComponent<CharacterController>().enabled = false;
             }
+
+            camera.GetComponent<ThirdPersonCamera>().enabled = questUIVisible;
+            this.GetComponent<CharacterController>().enabled = questUIVisible;
 
             questUI.enabled = !questUIVisible;
             questUIVisible = !questUIVisible;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.visible = !pauseUIVisible;
+            if (pauseUIVisible)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+
+            camera.GetComponent<ThirdPersonCamera>().enabled = pauseUIVisible;
+            this.GetComponent<CharacterController>().enabled = pauseUIVisible;
+
+            pauseUI.enabled = !pauseUIVisible;
+            pauseUIVisible = !pauseUIVisible;
         }
 
         if (Input.GetKeyDown(KeyCode.E) && !questUIVisible)
@@ -91,15 +109,15 @@ public class PlayerController : MonoBehaviour
             if (inventoryUIVisible)
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                camera.GetComponent<ThirdPersonCamera>().enabled = true;
-                this.GetComponent<CharacterController>().enabled = true;
             }
             else
             {
                 Cursor.lockState = CursorLockMode.None;
-                camera.GetComponent<ThirdPersonCamera>().enabled = false;
-                this.GetComponent<CharacterController>().enabled = false;
             }
+
+            camera.GetComponent<ThirdPersonCamera>().enabled = inventoryUIVisible;
+            this.GetComponent<CharacterController>().enabled = inventoryUIVisible;
+
             inventoryUI.enabled = !inventoryUIVisible;
             inventoryUIVisible = !inventoryUIVisible;
         }
@@ -155,5 +173,10 @@ public class PlayerController : MonoBehaviour
     public void setRunSpeed(int speed)
     {
         this.runSpeed = speed;
+    }
+
+    public static void setPauseUIVisible(bool visible)
+    {
+        PlayerController.pauseUIVisible = visible;
     }
 }

@@ -28,20 +28,23 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (npcObj.name.Equals("Dog"))
+        if (npcObj.name.Equals("Eugene"))
         {
-            triggerDist = 25.0f;
+            triggerDist = 35.0f;
         }
         if ((npcObj.transform.position - playerObj.transform.position).magnitude < triggerDist && !nearNPC)
         {
             pressFToTalkUI.enabled = true;
             nearNPC = true;
         }
-        if((npcObj.transform.position - playerObj.transform.position).magnitude > triggerDist && nearNPC && !npcObj.name.Equals("Dog"))
+        if((npcObj.transform.position - playerObj.transform.position).magnitude > triggerDist && nearNPC)
         {
             pressFToTalkUI.enabled = false;
             nearNPC = false;
-            EndDialogue();
+            if (!npcObj.name.Equals("Eugene"))
+            {
+                EndDialogue();
+            }
         }
         if (Input.GetKeyDown(KeyCode.F) && nearNPC)
         {

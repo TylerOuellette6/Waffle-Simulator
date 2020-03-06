@@ -5,7 +5,7 @@ using UnityEngine;
 public class ThirdPersonCamera : MonoBehaviour
 {
 
-    public bool lockCursor;
+    //public bool lockCursor;
     public float mouseSensitivity = 10;
     public Transform target;
     public float dstFromTarget = 2;
@@ -20,11 +20,6 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void Start()
     {
-        if (lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
     }
 
     void LateUpdate()
