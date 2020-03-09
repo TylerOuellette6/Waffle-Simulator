@@ -9,6 +9,11 @@ public class UIController : MonoBehaviour
     public Canvas inventoryUI;
     public Canvas pauseUI;
     public Canvas questDescriptionUI;
+    public Canvas optionsUI;
+    public Canvas achievementsUI;
+
+    public Camera camera;
+    public GameObject waffle;
 
     void Start()
     {
@@ -16,6 +21,8 @@ public class UIController : MonoBehaviour
         inventoryUI.enabled = false;
         pauseUI.enabled = false;
         questDescriptionUI.enabled = false;
+        optionsUI.enabled = false;
+        achievementsUI.enabled = false;
 
         toggleScriptsOnStart(false);
     }
@@ -28,6 +35,7 @@ public class UIController : MonoBehaviour
 
     public void handleContinueButtonHit()
     {
+        Time.timeScale = 1;
         mainMenuUI.enabled = false;
         lockCursor();
         toggleScriptsOnStart(true);
@@ -45,12 +53,12 @@ public class UIController : MonoBehaviour
 
     public void handleOptionsButtonHit()
     {
-
+        optionsUI.enabled = true;
     }
 
     public void handleAchievementsButtonHit()
     {
-
+        achievementsUI.enabled = true;
     }
 
     public void handleQuitButtonHit()
@@ -60,11 +68,18 @@ public class UIController : MonoBehaviour
 
     public void handleResumeButtonHit()
     {
+        Time.timeScale = 1;
         pauseUI.enabled = false;
-        Camera.main.GetComponent<ThirdPersonCamera>().enabled = true;
-        GameObject.Find("Waffle").GetComponent<PlayerController>().enabled = true;
+        camera.GetComponent<ThirdPersonCamera>().enabled = true;
+        waffle.GetComponent<CharacterController>().enabled = true;
         lockCursor();
         PlayerController.setPauseUIVisible(false);
+    }
+
+    public void handleBackButtonHit()
+    {
+        optionsUI.enabled = false;
+        achievementsUI.enabled = false;
     }
 
     public void handleSaveAndQuitButtonPushed()
@@ -72,6 +87,7 @@ public class UIController : MonoBehaviour
         // Handle save eventually
         pauseUI.enabled = false;
         mainMenuUI.enabled = true;
+        PlayerController.setPauseUIVisible(false);
         toggleScriptsOnStart(false);
     }
 
@@ -83,8 +99,9 @@ public class UIController : MonoBehaviour
 
     private void toggleScriptsOnStart(bool toggle)
     {
-        Camera.main.GetComponent<ThirdPersonCamera>().enabled = toggle;
-        GameObject.Find("Waffle").GetComponent<PlayerController>().enabled = toggle;
+        camera.GetComponent<ThirdPersonCamera>().enabled = toggle;
+        waffle.GetComponent<PlayerController>().enabled = toggle;
+        waffle.GetComponent<CharacterController>().enabled = true;
         GameObject.Find("Eugene").GetComponent<DogPatrolMovement>().enabled = toggle;
     }
 }

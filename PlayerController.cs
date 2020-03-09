@@ -89,10 +89,12 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = !pauseUIVisible;
             if (pauseUIVisible)
             {
+                Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
+                Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
             }
 

@@ -12,7 +12,6 @@ public class CompleteQuestUIManager : MonoBehaviour
     {
         questButtonPrefab = (GameObject)Resources.Load("prefabs/QuestButtonPrefab", typeof(GameObject));
         scrollContent = GameObject.Find("CompleteQuestsScrollContent");
-        Debug.Log(scrollContent);
     }
 
     public static void updateScrollList(List<Quest> quests)
