@@ -6,20 +6,20 @@ public class CollectiblePickupHandler : MonoBehaviour
 {
     public GameObject collectible;
     public static GameObject waffle;
+    private WaffleCollectibleManager waffleCollectibleManager;
 
     void Start()
     {
         waffle = GameObject.Find("Waffle");
+        waffleCollectibleManager = waffle.GetComponent<WaffleCollectibleManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-       
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.collider);
+        if ((collectible.transform.position - waffle.transform.position).magnitude < 3.0f)
+        {
+            collectible.SetActive(false);
+            waffleCollectibleManager.addCollectible(collectible);
+        }
     }
 }

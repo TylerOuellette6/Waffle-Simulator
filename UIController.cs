@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     public Canvas questDescriptionUI;
     public Canvas optionsUI;
     public Canvas achievementsUI;
+    public Canvas creditsUI;
 
     public Camera camera;
     public GameObject waffle;
@@ -23,6 +24,7 @@ public class UIController : MonoBehaviour
         questDescriptionUI.enabled = false;
         optionsUI.enabled = false;
         achievementsUI.enabled = false;
+        creditsUI.enabled = false;
 
         toggleScriptsOnStart(false);
     }
@@ -61,6 +63,11 @@ public class UIController : MonoBehaviour
         achievementsUI.enabled = true;
     }
 
+    public void handleCreditsButtonHit()
+    {
+        creditsUI.enabled = true;
+    }
+
     public void handleQuitButtonHit()
     {
         Application.Quit();
@@ -80,6 +87,7 @@ public class UIController : MonoBehaviour
     {
         optionsUI.enabled = false;
         achievementsUI.enabled = false;
+        creditsUI.enabled = false;
     }
 
     public void handleSaveAndQuitButtonPushed()
