@@ -11,7 +11,7 @@ public class DialogueTrigger : MonoBehaviour
     public DialogueManager dialogueManager;
 
     private bool nearNPC;
-    private float triggerDist = 10.0f;
+    private float triggerDist = 20.0f;
     private DogPatrolMovement dogMovementScript;
 
     private void Start()
@@ -30,7 +30,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (npcObj.name.Equals("Eugene"))
         {
-            triggerDist = 35.0f;
+            triggerDist = 70.0f;
         }
         if ((npcObj.transform.position - playerObj.transform.position).magnitude < triggerDist && !nearNPC)
         {

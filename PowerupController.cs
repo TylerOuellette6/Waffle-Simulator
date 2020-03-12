@@ -9,9 +9,12 @@ public class PowerupController : MonoBehaviour
 
     private static bool hasSuperSpeedBeenShown = false;
     private static bool hasSuperJumpBeenShown = false;
+    private static bool hasSuperMiniBeenShown = false;
 
     public static GameObject superSpeedPowerup;
     public static GameObject superJumpPowerup;
+    public static GameObject superMiniPowerup;
+
     void Start()
     {
         waffleController = waffle.GetComponent<PlayerController>();
@@ -55,6 +58,21 @@ public class PowerupController : MonoBehaviour
     }
 
     public static void receiveSuperJumpPowerup()
+    {
+        // Draw power-up and handle toggling
+    }
+
+    // SUPER MINI
+    public static void showSuperMiniPowerup()
+    {
+        if (!hasSuperMiniBeenShown)
+        {
+            superMiniPowerup.SetActive(true);
+        }
+        hasSuperMiniBeenShown = true;
+    }
+
+    public static void receiveSuperMiniPowerup()
     {
         // Draw power-up and handle toggling
     }

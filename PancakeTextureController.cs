@@ -17,7 +17,7 @@ public class PancakeTextureController : MonoBehaviour
         Quest currentQuest = pancakeQuestManager.getTempCurrentQuest();
         if(currentQuest != null)
         {
-            if ((currentQuest.questName.Equals("(incomprehensible pancake nonsense)") && currentQuest.getCompleted()) ||
+            if ((currentQuest.questName.Equals("(Incomprehensible pancake nonsense)") && currentQuest.getCompleted()) ||
             (currentQuest.questName.Equals("Missing Piece") && !currentQuest.getCompleted()))
             {
                 wholePancakeTexture.SetActive(false);

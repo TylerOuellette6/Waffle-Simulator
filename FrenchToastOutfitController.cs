@@ -6,7 +6,6 @@ public class FrenchToastOutfitController : MonoBehaviour
 {
     public NPCQuestManager frenchToastQuestManager;
     public GameObject frenchToastNPC;
-    private bool hasPowerupBeenGiven = false;
 
     void Update()
     {
