@@ -8,6 +8,7 @@ public class WaffleQuestController : MonoBehaviour
     private static List<Quest> startedQuests;
     private static List<Quest> finishedQuests;
     private static Canvas questDescriptionUI;
+    private static GameObject waffle;
 
     void Start()
     {
@@ -16,6 +17,8 @@ public class WaffleQuestController : MonoBehaviour
 
         startedQuests = new List<Quest>();
         finishedQuests = new List<Quest>();
+
+        waffle = GameObject.Find("Waffle");
     }
 
     public static void addQuestToList(Quest newQuest)
@@ -66,9 +69,10 @@ public class WaffleQuestController : MonoBehaviour
 
     public static void completeQuest(Quest completedQuest)
     {
+        WaffleInventoryManager waffleInventoryManager = waffle.GetComponent<WaffleInventoryManager>();
         if(completedQuest.getObjectNeededForCompletion() != null)
         {
-            WaffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
+            waffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
         }
         NPCQuestManager.moveNPCAfterQuest(completedQuest);
         finishedQuests.Add(completedQuest);

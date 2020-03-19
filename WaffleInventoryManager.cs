@@ -3,29 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class WaffleInventoryManager : MonoBehaviour
 {
-    private static GameObject playerObj;
+    private GameObject playerObj;
 
     private static List<GameObject> inventoryItems;
-    private static List<GameObject> inventoryUIItems;
+    private List<GameObject> inventoryUIItems;
 
     private static List<GameObject> permanentItems;
-    private static List<GameObject> permanentUIItems;
+    private List<GameObject> permanentUIItems;
 
-    private static int permanentInventoryItemXPosition = -300;
-    private static int permanentInventoryItemYPosition = 115;
-    private static int temporaryInventoryItemXPosition = -300;
-    private static int temporaryInventoryItemYPosition = -115;
+    private int permanentInventoryItemXPosition = -300;
+    private int permanentInventoryItemYPosition = 115;
+    private int temporaryInventoryItemXPosition = -300;
+    private int temporaryInventoryItemYPosition = -115;
 
-    private static int xPosMovementConst = 175;
+    private int xPosMovementConst = 175;
 
-    private static GameObject singleInventoryItemPrefab;
-    private static GameObject singlePermanentInventoryItemPrefab;
-    private static GameObject inventoryPanel;
-    private static Canvas inventoryFullErrorUI;
+    private GameObject singleInventoryItemPrefab;
+    private GameObject singlePermanentInventoryItemPrefab;
+    private GameObject superJumpInventoryUIPrefab;
+    private GameObject superMiniInventoryUIPrefab;
+
+    private GameObject inventoryPanel;
+    private Canvas inventoryFullErrorUI;
+
+    private bool superJumpEnabled = false;
+    private Text superJumpText;
+
+    private bool superMiniEnabled = false;
+    private Text superMiniText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +52,18 @@ public class WaffleInventoryManager : MonoBehaviour
             "prefabs/SingleInventoryItemUIPrefab", typeof(GameObject));
         singlePermanentInventoryItemPrefab = (GameObject)Resources.Load(
             "prefabs/SinglePermanentInventoryItemUIPrefab", typeof(GameObject));
+        superJumpInventoryUIPrefab = (GameObject)Resources.Load(
+            "prefabs/SuperJumpInventoryUIPrefab", typeof(GameObject));
+        superMiniInventoryUIPrefab = (GameObject)Resources.Load(
+            "prefabs/SuperMiniInventoryUIPrefab", typeof(GameObject));
+
         inventoryPanel = GameObject.Find("InventoryPanel");
         inventoryFullErrorUI = GameObject.Find("InventoryFullErrorUI").GetComponent<Canvas>();
         inventoryFullErrorUI.enabled = false;
+
     }
 
-    public static async void addTempItemToInventory(GameObject newInventoryItem)
+    public async void addTempItemToInventory(GameObject newInventoryItem)
     {
         if (inventoryItems.Count >= 8)
         {
@@ -61,14 +78,14 @@ public class WaffleInventoryManager : MonoBehaviour
         }
     }
 
-    public static void addPermanentItemToInventory(GameObject newInventoryItem)
+    public void addPermanentItemToInventory(GameObject newInventoryItem)
     {
         permanentItems.Add(newInventoryItem);
         newInventoryItem.SetActive(false);
         updateInventoryUI(true);
     }
 
-    private static void updateInventoryUI(bool permanent)
+    private void updateInventoryUI(bool permanent)
     {
         if (!permanent)
         {
@@ -110,15 +127,11 @@ public class WaffleInventoryManager : MonoBehaviour
         
     }
 
-    private static void createInventoryItemPrefab(GameObject inventoryItem, bool permanent)
+    private void createInventoryItemPrefab(GameObject inventoryItem, bool permanent)
     {
         if (!permanent)
         {
-            GameObject tempInventoryItemUI = (GameObject)Instantiate(singleInventoryItemPrefab);
-            tempInventoryItemUI.transform.SetParent(inventoryPanel.transform);
-            tempInventoryItemUI.transform.localPosition = new Vector3(temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
-            tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<InventoryItem>().image;
-            tempInventoryItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
+            GameObject tempInventoryItemUI = inventoryUIBuilderHelper(singleInventoryItemPrefab, inventoryItem, permanent);
             Button removeInventoryItemBtn = tempInventoryItemUI.GetComponentInChildren<Button>();
             removeInventoryItemBtn.onClick.AddListener(delegate { removeInventoryItem(tempInventoryItemUI); });
 
@@ -128,20 +141,89 @@ public class WaffleInventoryManager : MonoBehaviour
         }
         else
         {
-            GameObject permanentItemUI = (GameObject)Instantiate(singlePermanentInventoryItemPrefab);
-            permanentItemUI.transform.SetParent(inventoryPanel.transform);
-            permanentItemUI.transform.localPosition = new Vector3(permanentInventoryItemXPosition, permanentInventoryItemYPosition, 0);
-            //tempInventoryItemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<SpriteMask>().sprite;
-            permanentItemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
+            GameObject permanentItemUI;
+            if (inventoryItem.name.Equals("Super Jump Powerup"))
+            {
+                permanentItemUI = inventoryUIBuilderHelper(superJumpInventoryUIPrefab, inventoryItem, permanent);
 
+                Button superJumpToggleBtn = permanentItemUI.GetComponentInChildren<Button>();
+                superJumpToggleBtn.onClick.AddListener(delegate { superJumpToggled(superJumpToggleBtn); });
+                Image buttonColor = superJumpToggleBtn.GetComponent<Image>();
+                buttonColor.color = Color.red;
+                superJumpText = superJumpToggleBtn.GetComponentInChildren<Text>();
+            }
+            else if (inventoryItem.name.Equals("Super Mini Powerup"))
+            {
+                permanentItemUI = inventoryUIBuilderHelper(superMiniInventoryUIPrefab, inventoryItem, permanent);
+
+                Button superMiniToggleBtn = permanentItemUI.GetComponentInChildren<Button>();
+                superMiniToggleBtn.onClick.AddListener(delegate { superMiniToggled(superMiniToggleBtn); });
+                Image buttonColor = superMiniToggleBtn.GetComponent<Image>();
+                buttonColor.color = Color.red;
+                superMiniText = superMiniToggleBtn.GetComponentInChildren<Text>();
+            } 
+            else
+            {
+                permanentItemUI = inventoryUIBuilderHelper(singlePermanentInventoryItemPrefab, inventoryItem, permanent);
+            }
             permanentUIItems.Add(permanentItemUI);
-
             permanentInventoryItemXPosition += xPosMovementConst;
         }
-        
+
     }
 
-    private static void removeInventoryItem(GameObject inventoryUIItemToRemove)
+    private GameObject inventoryUIBuilderHelper(GameObject inventoryUIPrefab, GameObject inventoryItem, bool permanent)
+    {
+        GameObject itemUI = (GameObject)Instantiate(inventoryUIPrefab);
+        itemUI.transform.SetParent(inventoryPanel.transform);
+        if (permanent)
+        {
+            itemUI.transform.localPosition = new Vector3(permanentInventoryItemXPosition, permanentInventoryItemYPosition, 0);
+        }
+        else
+        {
+            itemUI.transform.localPosition = new Vector3(temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
+        }
+        itemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<InventoryItem>().image;
+        itemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
+        return itemUI;
+    }
+
+    private void superMiniToggled(Button superMiniToggleBtn)
+    {
+        Image buttonColor = superMiniToggleBtn.GetComponent<Image>();
+        superMiniEnabled = !superMiniEnabled;
+        PowerupController.toggleSuperMiniPowerup(superMiniEnabled);
+        if (superMiniEnabled)
+        {
+            superMiniText.text = "ON";
+            buttonColor.color = Color.green;
+        }
+        else
+        {
+            superMiniText.text = "OFF";
+            buttonColor.color = Color.red;
+        }
+    }
+
+    private void superJumpToggled(Button superJumpToggleBtn)
+    {
+        Image buttonColor = superJumpToggleBtn.GetComponent<Image>();
+        superJumpEnabled = !superJumpEnabled;
+        PowerupController.toggleSuperJumpPowerup(superJumpEnabled);
+        if (superJumpEnabled)
+        {
+            superJumpText.text = "ON";
+            buttonColor.color = Color.green;
+        }
+        else
+        {
+            superJumpText.text = "OFF";
+            buttonColor.color = Color.red;
+        }
+    }
+
+    private void removeInventoryItem(GameObject inventoryUIItemToRemove)
     {
         string itemName = inventoryUIItemToRemove.GetComponentInChildren<Text>().text;
         int indexToRemove = -1;
@@ -166,7 +248,7 @@ public class WaffleInventoryManager : MonoBehaviour
         updateInventoryUI(permanent);
     }
 
-    public static void removeInventoryItemAfterQuest(String inventoryItemToRemoveName)
+    public void removeInventoryItemAfterQuest(String inventoryItemToRemoveName)
     {
         foreach(GameObject inventoryItem in inventoryItems)
         {

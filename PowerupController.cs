@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerupController : MonoBehaviour
 {
-    public GameObject waffle;
+    public static GameObject waffle;
     private static PlayerController waffleController;
 
     private static bool hasSuperSpeedBeenShown = false;
@@ -17,10 +17,12 @@ public class PowerupController : MonoBehaviour
 
     void Start()
     {
+        waffle = GameObject.Find("Waffle");
         waffleController = waffle.GetComponent<PlayerController>();
 
         GameObject mouse = GameObject.Find("Mouse");
         superSpeedPowerup = mouse.transform.Find("Super Speed Powerup").gameObject;
+        Debug.Log(superSpeedPowerup);
 
         GameObject frenchToast = GameObject.Find("French Toast");
         superJumpPowerup = frenchToast.transform.Find("Super Jump Powerup").gameObject;
@@ -57,9 +59,17 @@ public class PowerupController : MonoBehaviour
         hasSuperJumpBeenShown = true;
     }
 
-    public static void receiveSuperJumpPowerup()
+    public static void toggleSuperJumpPowerup(bool superJumpOn)
     {
-        // Draw power-up and handle toggling
+        if (superJumpOn)
+        {
+            waffleController.setJumpHeight(200);
+        }
+        else
+        {
+            // TODO: Come back to this 
+            waffleController.setJumpHeight(20);
+        }
     }
 
     // SUPER MINI
@@ -72,8 +82,17 @@ public class PowerupController : MonoBehaviour
         hasSuperMiniBeenShown = true;
     }
 
-    public static void receiveSuperMiniPowerup()
+    public static void toggleSuperMiniPowerup(bool superMiniOn)
     {
-        // Draw power-up and handle toggling
+        if (superMiniOn)
+        {
+            waffle.transform.localScale = new Vector3(3, 3, 0.2f);
+        }
+        else
+        {
+            Vector3 curPos = waffle.transform.position;
+            waffle.transform.position = new Vector3(curPos.x, curPos.y + 4, curPos.z);
+            waffle.transform.localScale = new Vector3(6, 6, 0.4f);
+        }
     }
 }

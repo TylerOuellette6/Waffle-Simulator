@@ -177,6 +177,11 @@ public class PlayerController : MonoBehaviour
         this.runSpeed = speed;
     }
 
+    public void setJumpHeight(int jumpHeight)
+    {
+        this.jumpHeight = jumpHeight;
+    }
+
     public static void setPauseUIVisible(bool visible)
     {
         PlayerController.pauseUIVisible = visible;

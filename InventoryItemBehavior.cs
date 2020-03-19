@@ -39,18 +39,19 @@ public class InventoryItemBehavior : MonoBehaviour
     {
         pressFToPickUp.enabled = false;
         InventoryItem item = inventoryObj.GetComponent<InventoryItem>();
+        WaffleInventoryManager waffleInventoryManager= playerObj.GetComponent<WaffleInventoryManager>();
         bool permanent = item.isPermanentItem;
         if (permanent)
         {
-            WaffleInventoryManager.addPermanentItemToInventory(inventoryObj);
+            waffleInventoryManager.addPermanentItemToInventory(inventoryObj);
             if (inventoryObj.name.Equals("Super Speed Powerup"))
             {
                 PowerupController.receiveSuperSpeedPowerup();
-            }
+            } 
         }
         else
         {
-            WaffleInventoryManager.addTempItemToInventory(inventoryObj);
+            waffleInventoryManager.addTempItemToInventory(inventoryObj);
         }
         WaffleQuestController.checkIfItemCompletesQuest(inventoryObj);
     }
