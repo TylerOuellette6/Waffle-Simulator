@@ -22,10 +22,12 @@ public class PowerupController : MonoBehaviour
 
         GameObject mouse = GameObject.Find("Mouse");
         superSpeedPowerup = mouse.transform.Find("Super Speed Powerup").gameObject;
-        Debug.Log(superSpeedPowerup);
 
         GameObject frenchToast = GameObject.Find("French Toast");
         superJumpPowerup = frenchToast.transform.Find("Super Jump Powerup").gameObject;
+
+        GameObject elffaw = GameObject.Find("Elffaw");
+        superMiniPowerup = elffaw.transform.Find("Super Mini Powerup").gameObject;
     }
 
     // Update is called once per frame

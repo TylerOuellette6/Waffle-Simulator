@@ -20,13 +20,13 @@ public class EllfawQuestController : MonoBehaviour
             }
             if (currentQuest.questName.Equals("Mystery Location #2") && !currentQuest.getCompleted() && currentQuest.getAccepted())
             {
-                ellfawNPC.transform.position = new Vector3(-907.4f, 6, 296f);
+                ellfawNPC.transform.position = new Vector3(-909f, 6, 297.6f);
                 ellfawNPC.transform.rotation = Quaternion.Euler(0, -45, 0);
                 currentQuest.setConditionMetForCompletion(true);
             }
             if (currentQuest.questName.Equals("Mystery Location #3") && !currentQuest.getCompleted() && currentQuest.getAccepted())
             {
-                // Move to hidden location
+                ellfawNPC.transform.position = new Vector3(-666, 18.6f, 310.2f);
                 currentQuest.setConditionMetForCompletion(true);
             }
             if (currentQuest.questName.Equals("Mystery Location #3") && currentQuest.getCompleted())

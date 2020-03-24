@@ -16,7 +16,7 @@ public class CollectiblePickupHandler : MonoBehaviour
 
     void Update()
     {
-        if ((collectible.transform.position - waffle.transform.position).magnitude < 3.0f)
+        if ((collectible.transform.position - waffle.transform.position).magnitude < 8.0f)
         {
             collectible.SetActive(false);
             waffleCollectibleManager.addCollectible(collectible);
