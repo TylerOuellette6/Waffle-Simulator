@@ -7,7 +7,6 @@ public class MouseQuestController : MonoBehaviour
     public NPCQuestManager mouseQuestManager;
     public GameObject mouseNPC;
     private bool grown = false;
-    private bool hasPowerupBeenGiven = false;
 
     void Update()
     {

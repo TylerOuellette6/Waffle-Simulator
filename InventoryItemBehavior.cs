@@ -7,6 +7,7 @@ public class InventoryItemBehavior : MonoBehaviour
     public Canvas pressFToPickUp;
     public GameObject inventoryObj;
     public GameObject playerObj;
+    public CountertopItemController countertopItemController;
 
     private bool nearInventoryObj;
 
@@ -37,6 +38,10 @@ public class InventoryItemBehavior : MonoBehaviour
 
     public void HandleItemPickup()
     {
+        if(countertopItemController != null)
+        {
+            countertopItemController.SetHasFallen(true, true);
+        }
         pressFToPickUp.enabled = false;
         InventoryItem item = inventoryObj.GetComponent<InventoryItem>();
         WaffleInventoryManager waffleInventoryManager= playerObj.GetComponent<WaffleInventoryManager>();
