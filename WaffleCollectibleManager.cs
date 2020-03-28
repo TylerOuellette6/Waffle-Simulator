@@ -19,5 +19,18 @@ public class WaffleCollectibleManager : MonoBehaviour
         collectiblesFound.Add(newCollectible);
         // TODO: Add total when done
         collectibleCountText.text = collectiblesFound.Count + " / TOTAL"; 
+        if(collectiblesFound.Count == 5)
+        {
+            AchievementsController.unlockSomeButter();
+        }
+        if(collectiblesFound.Count == 10)
+        {
+            AchievementsController.unlockSomeMoreButter();
+        }
+        if(collectiblesFound.Count == 15)
+        {
+            AchievementsController.unlockSomeMoreMoreButter();
+        }
+        // TODO: Add how many final butters
     }
 }

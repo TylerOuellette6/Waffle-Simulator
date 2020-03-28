@@ -44,9 +44,10 @@ public class DialogueManager : MonoBehaviour
             {
                 sentences.Enqueue(sentence);
             }
-        } 
+        }
 
-        if(quest.getConditionMetForCompletion()){
+        if (quest.getConditionMetForCompletion())
+        {
             sentences.Clear();
             foreach (string sentence in quest.getQuestCompleteDialogue().sentences)
             {
@@ -54,18 +55,18 @@ public class DialogueManager : MonoBehaviour
             }
             quest.setCompleted(true);
         }
-        
+
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        if(sentences.Count == 0)
+        if (sentences.Count == 0)
         {
             EndDialogue();
             return;
         }
-        if(sentences.Count == 1 && !this.quest.getConditionMetForCompletion())
+        if (sentences.Count == 1 && !this.quest.getConditionMetForCompletion())
         {
             ButtonVisibilityToggle(true, 0, 1, Color.clear, Color.black);
         }
@@ -77,7 +78,7 @@ public class DialogueManager : MonoBehaviour
     IEnumerator typeSentence(string sentence)
     {
         dialogueText.text = "";
-        foreach(char letter in sentence.ToCharArray())
+        foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
             yield return null;

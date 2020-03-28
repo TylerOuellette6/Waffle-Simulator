@@ -59,5 +59,6 @@ public class InventoryItemBehavior : MonoBehaviour
             waffleInventoryManager.addTempItemToInventory(inventoryObj);
         }
         WaffleQuestController.checkIfItemCompletesQuest(inventoryObj);
+        inventoryObj.GetComponent<InventoryItemBehavior>().enabled = false;
     }
 }

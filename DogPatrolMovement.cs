@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class DogPatrolMovement : MonoBehaviour
 {
+    public NPCQuestManager dogQuestManager;
     public Transform[] points;
     public int[] rotations;
     private int destPoint = 0;
@@ -15,6 +16,18 @@ public class DogPatrolMovement : MonoBehaviour
         dog.transform.position = points[0].position;
         dog.transform.rotation = Quaternion.Euler(0, rotations[0], 0);
         StartCoroutine(MoveOverSeconds(dog, points[destPoint + 1].position, 5f));
+    }
+
+    void Update()
+    {
+        Quest currentQuest = dogQuestManager.getTempCurrentQuest();
+        if (currentQuest != null)
+        {
+            if (currentQuest.questName.Equals("Wanted: Tennis Ball") && currentQuest.getCompleted())
+            {
+                AchievementsController.unlockEugenesErrands();
+            }
+        }
     }
     public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)
     {

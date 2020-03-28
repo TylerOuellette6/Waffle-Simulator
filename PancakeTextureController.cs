@@ -22,7 +22,6 @@ public class PancakeTextureController : MonoBehaviour
             {
                 wholePancakeTexture.SetActive(false);
                 showPancakePiece();
-                missingPancakePiece.SetActive(true);
             }
             else
             {
@@ -39,6 +38,7 @@ public class PancakeTextureController : MonoBehaviour
         {
             pancakeTextureMissingPiece.SetActive(true);
             hasPieceBeenShown = true;
+            missingPancakePiece.SetActive(true);
         }
     }
 }

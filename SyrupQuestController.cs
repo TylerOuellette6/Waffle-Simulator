@@ -29,6 +29,7 @@ public class SyrupQuestController : MonoBehaviour
             }
             if (currentQuest.questName.Equals("Fancy Soap") && currentQuest.getCompleted())
             {
+                AchievementsController.unlockSyrupsSearches();
                 Transform hat = soapBottle.transform.Find("Top Hat");
                 hat.gameObject.SetActive(true);
             }

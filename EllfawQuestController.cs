@@ -31,6 +31,7 @@ public class EllfawQuestController : MonoBehaviour
             }
             if (currentQuest.questName.Equals("Mystery Location #3") && currentQuest.getCompleted())
             {
+                AchievementsController.unlockEllfawExpeditions();
                 PowerupController.showSuperMiniPowerup();
             }
         }

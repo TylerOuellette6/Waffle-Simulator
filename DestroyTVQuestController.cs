@@ -6,6 +6,7 @@ public class DestroyTVQuestController : MonoBehaviour
 {
     public GameObject tvObject;
     public NPCQuestManager pancakeQuestManager;
+    public bool doOnce = false;
 
     void Update()
     {
@@ -21,8 +22,15 @@ public class DestroyTVQuestController : MonoBehaviour
                 if (tvYPos < 30)
                 {
                     currentQuest.setConditionMetForCompletion(true);
-                    Debug.Log("Fallen");
+                }
+            }
+            if(currentQuest.questName.Equals("TV Topple") && currentQuest.getCompleted())
+            {
+                if (!doOnce)
+                {
+                    doOnce = true;
                     tvObject.GetComponent<DestroyTVQuestController>().enabled = false;
+                    AchievementsController.unlockPancakesProjects();
                 }
             }
         }

@@ -24,6 +24,7 @@ public class FrenchToastOutfitController : MonoBehaviour
             }
             if (currentQuest.questName.Equals("Lost Mustache") && currentQuest.getCompleted())
             {
+                AchievementsController.unlockFrenchToastsTasks();
                 Transform mustache = frenchToastNPC.transform.Find("Mustache");
                 mustache.gameObject.SetActive(true);
                 PowerupController.showSuperJumpPowerup();

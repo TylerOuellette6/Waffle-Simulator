@@ -33,6 +33,11 @@ public class PowerupController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (waffle.transform.position.y < -2)
+        {
+            Vector3 curPos = waffle.transform.position;
+            waffle.transform.position = new Vector3(curPos.x, 1, curPos.z);
+        }
     }
 
     // SUPER SPEED

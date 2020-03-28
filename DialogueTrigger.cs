@@ -67,7 +67,8 @@ public class DialogueTrigger : MonoBehaviour
                 break;
             }
         }
-        if((tempQuest != null && !tempQuest.getAccepted()) || tempQuest.getConditionMetForCompletion())
+        if((tempQuest != null && !tempQuest.getAccepted()) 
+            || (tempQuest.getConditionMetForCompletion() && !tempQuest.getCompleted()))
         {
             FindObjectOfType<DialogueManager>().StartDialogue(tempQuest);
         }

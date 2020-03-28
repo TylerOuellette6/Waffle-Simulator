@@ -23,6 +23,7 @@ public class MouseQuestController : MonoBehaviour
             }
             if(currentQuest.questName.Equals("Desire for Donut") && currentQuest.getCompleted())
             {
+                AchievementsController.unlockMousesMissions();
                 PowerupController.showSuperSpeedPowerup();
             }
         }
