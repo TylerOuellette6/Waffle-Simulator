@@ -78,6 +78,21 @@ public class WaffleInventoryManager : MonoBehaviour
         }
     }
 
+    private void checkSoupCount()
+    {
+        int soupCounter = 0;
+        foreach(GameObject inventoryItem in inventoryItems){
+            if (inventoryItem.name.Contains("Soup"))
+            {
+                soupCounter++;
+            }
+        }
+        if(soupCounter >= 8)
+        {
+            AchievementsController.unlockSoup();
+        }
+    }
+
     public void addPermanentItemToInventory(GameObject newInventoryItem)
     {
         permanentItems.Add(newInventoryItem);

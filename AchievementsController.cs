@@ -15,6 +15,8 @@ public class AchievementsController : MonoBehaviour
     private static GameObject singleAchievementBannerPrefab;
     private static GameObject achievementBannersPanel;
 
+    private static Dictionary<string, string> finishedAchievementsList = new Dictionary<string, string>();
+
     private static bool ellfawExpeditionsUnlocked = false;
     private static bool eugenesErrandsUnlocked = false;
     private static bool frenchToastsTasksUnlocked = false;
@@ -209,7 +211,9 @@ public class AchievementsController : MonoBehaviour
 
         if (!goalUnlocked)
         {
-
+            goalUnlocked = true;
+            showAchievementPopup("GOAL!");
+            createAchievementBanner("GOAL!", "Push the soccer ball through the goal.");
         }
     }
 
@@ -217,7 +221,9 @@ public class AchievementsController : MonoBehaviour
     {
         if (!soupUnlocked)
         {
-
+            soupUnlocked = true;
+            showAchievementPopup("S O U P");
+            createAchievementBanner("S O U P", "You madman! You filled your entire inventory with soup! What’s wrong with you?!");
         }
     }
 
@@ -240,7 +246,7 @@ public class AchievementsController : MonoBehaviour
         achievementUnlockedPopup.enabled = false;
     }
 
-    private static void createAchievementBanner(String achievementName, String description)
+    public static void createAchievementBanner(String achievementName, String description)
     {
         GameObject newAchievementBanner = (GameObject)Instantiate(singleAchievementBannerPrefab);
         Button achievementButton = newAchievementBanner.GetComponent<Button>();
@@ -261,9 +267,15 @@ public class AchievementsController : MonoBehaviour
 
     private static void handleAchievementClicked(String achievementName, String description)
     {
+        finishedAchievementsList.Add(achievementName, description);
         achievementDescriptionUI.enabled = true;
         achievementNameText.text = achievementName;
         achievementDescriptionText.text = description;
+    }
+
+    public static Dictionary<string, string> getFinishedAchievementsList()
+    {
+        return finishedAchievementsList;
     }
 
 

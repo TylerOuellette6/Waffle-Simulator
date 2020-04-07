@@ -80,4 +80,24 @@ public class WaffleQuestController : MonoBehaviour
         IncompleteQuestUIManager.updateScrollList(startedQuests);
         CompleteQuestUIManager.updateScrollList(finishedQuests);
     }
+
+    public List<Quest> getStartedQuests()
+    {
+        return startedQuests;
+    }
+
+    public List<Quest> getFinishedQuests()
+    {
+        return finishedQuests;
+    }
+
+    public void setStartedQuests(List<Quest> quests)
+    {
+        startedQuests = quests;
+    }
+
+    public void setSFinishedQuests(List<Quest> quests)
+    {
+        finishedQuests = quests;
+    }
 }

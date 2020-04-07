@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
@@ -15,6 +17,8 @@ public class UIController : MonoBehaviour
 
     public Camera camera;
     public GameObject waffle;
+
+    public GameObject saveAndLoadManager;
 
     void Start()
     {
@@ -37,6 +41,8 @@ public class UIController : MonoBehaviour
 
     public void handleContinueButtonHit()
     {
+        // TODO: Pass in save num
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().loadSaveState(0);
         Time.timeScale = 1;
         mainMenuUI.enabled = false;
         lockCursor();
@@ -90,6 +96,9 @@ public class UIController : MonoBehaviour
         creditsUI.enabled = false;
     }
 
+    /*
+     * This handles serializing the save data to a file
+     */
     public void handleSaveAndQuitButtonPushed()
     {
         // Handle save eventually
@@ -97,6 +106,13 @@ public class UIController : MonoBehaviour
         mainMenuUI.enabled = true;
         PlayerController.setPauseUIVisible(false);
         toggleScriptsOnStart(false);
+
+        SaveState save = saveAndLoadManager.GetComponent<SaveAndLoadController>().createSaveState();
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
+        bf.Serialize(file, save);
+        file.Close();
+        Debug.Log("Game saved");
     }
 
     private void lockCursor()
