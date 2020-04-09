@@ -8,6 +8,7 @@ public class SaveAndLoadController : MonoBehaviour
 {
     public GameObject waffle;
     public List<GameObject> npcs;
+    public int saveSlotNum;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,17 @@ public class SaveAndLoadController : MonoBehaviour
         
     }
 
-    public SaveState createSaveState()
+    public void save()
+    {
+        SaveState save = createSaveState();
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/gamesave" + saveSlotNum + ".save");
+        bf.Serialize(file, save);
+        file.Close();
+        Debug.Log("Game saved");
+    }
+
+    private SaveState createSaveState()
     {
         SaveState save = new SaveState();
 
@@ -50,15 +61,31 @@ public class SaveAndLoadController : MonoBehaviour
         // ACHIEVEMENTS
         save.finishedAchievements = AchievementsController.getFinishedAchievementsList();
 
+        // INVENTORY ITEMS
+        List<string> tempInventoryItems = new List<string>();
+        List<string> permanentInventoryItems = new List<string>();
+
+        foreach(GameObject tempItem in WaffleInventoryManager.getInventoryItemList())
+        {
+            tempInventoryItems.Add(tempItem.name);
+        }
+        foreach(GameObject permanentItem in WaffleInventoryManager.getPermanentItemList())
+        {
+            permanentInventoryItems.Add(permanentItem.name);
+        }
+
+        save.tempInventoryItems = tempInventoryItems;
+        save.permanentInventoryItems = permanentInventoryItems;
+
         return save;
     }
 
-    public void loadSaveState(int saveSlot)
+    public void load(int saveSlot)
     {
-        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        if (File.Exists(Application.persistentDataPath + "/gamesave" + saveSlot + ".save"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/gamesave" + saveSlot + ".save", FileMode.Open);
             SaveState save = (SaveState)bf.Deserialize(file);
             file.Close();
 
@@ -66,6 +93,7 @@ public class SaveAndLoadController : MonoBehaviour
             loadQuestList(save.startedQuests, false); // Load the started quest
             loadQuestList(save.finishedQuests, true); // Load the finished quests
             loadAchievementBanners(save.finishedAchievements);
+            loadInventoryItems(save.tempInventoryItems, save.permanentInventoryItems);
 
             Debug.Log("Game Loaded");
         }
@@ -104,5 +132,22 @@ public class SaveAndLoadController : MonoBehaviour
             AchievementsController.createAchievementBanner(achievement.Key, achievement.Value);
 
         }
+    }
+
+    private void loadInventoryItems(List<string> tempItems, List<string> permanentItems)
+    {
+        foreach(string tempItemName in tempItems)
+        {
+            waffle.GetComponent<WaffleInventoryManager>().addTempItemToInventory(GameObject.Find(tempItemName));
+        }
+        foreach(string permanentItemName in permanentItems)
+        {
+            waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(GameObject.Find(permanentItemName));
+        }
+    }
+
+    public void setSaveSlot(int num)
+    {
+        saveSlotNum = num;
     }
 }

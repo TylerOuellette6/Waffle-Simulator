@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -14,14 +15,23 @@ public class UIController : MonoBehaviour
     public Canvas optionsUI;
     public Canvas achievementsUI;
     public Canvas creditsUI;
+    public Canvas newGameUI;
+    public Canvas loadGameUI;
+    public Canvas controlsUI;
 
     public Camera camera;
     public GameObject waffle;
 
     public GameObject saveAndLoadManager;
 
+    private int mostRecentSaveSlot = 0;
+
     void Start()
     {
+        if (PlayerPrefs.HasKey("saveSlot"))
+        {
+            mostRecentSaveSlot = PlayerPrefs.GetInt("saveSlot");
+        }
         questUI.enabled = false;
         inventoryUI.enabled = false;
         pauseUI.enabled = false;
@@ -29,36 +39,119 @@ public class UIController : MonoBehaviour
         optionsUI.enabled = false;
         achievementsUI.enabled = false;
         creditsUI.enabled = false;
+        newGameUI.enabled = false;
+        loadGameUI.enabled = false;
+        controlsUI.enabled = false;
 
         toggleScriptsOnStart(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void gameSelected(bool controlsUIVisible)
     {
-
+        if (!controlsUI)
+        {
+            Time.timeScale = 1;
+            lockCursor();
+        }
+        else
+        {
+            Time.timeScale = 0.00001f;
+        }
+        mainMenuUI.enabled = false;
+        newGameUI.enabled = false;
+        loadGameUI.enabled = false;
+        toggleScriptsOnStart(true);
     }
 
     public void handleContinueButtonHit()
     {
-        // TODO: Pass in save num
-        saveAndLoadManager.GetComponent<SaveAndLoadController>().loadSaveState(0);
-        Time.timeScale = 1;
-        mainMenuUI.enabled = false;
-        lockCursor();
-        toggleScriptsOnStart(true);
+        if(mostRecentSaveSlot != 0)
+        {
+            saveAndLoadManager.GetComponent<SaveAndLoadController>().load(mostRecentSaveSlot);
+            gameSelected(false);
+        }
     }
 
+    // NEW GAME BUTTON HANDLING
     public void handleNewGameButtonHit()
     {
-
+        newGameUI.enabled = true;
     }
 
+    public void handleCloseNewGamePopup()
+    {
+        newGameUI.enabled = false;
+    }
+
+    public void handleNewGameSaveSlotOne()
+    {
+        PlayerPrefs.SetInt("saveSlot", 1);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(1);
+        gameSelected(true);
+        controlsUI.enabled = true;
+    }
+
+    public void handleNewGameSaveSlotTwo()
+    {
+        PlayerPrefs.SetInt("saveSlot", 2);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(2);
+        gameSelected(true);
+        controlsUI.enabled = true;
+    }
+
+    public void handleNewGameSaveSlotThree()
+    {
+        PlayerPrefs.SetInt("saveSlot", 3);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(3);
+        gameSelected(true);
+        controlsUI.enabled = true;
+    }
+
+    public void handleCloseControlsPopup()
+    {
+        lockCursor();
+        controlsUI.enabled = false;
+        Time.timeScale = 1;
+    }
+
+    // LOAD GAME BUTTON HANDLING
     public void handleLoadGameButtonHit()
     {
-
+        loadGameUI.enabled = true;
+        GameObject.Find("LoadGamePanel").transform.GetChild(1).GetComponent<Button>().gameObject.SetActive(File.Exists(Application.persistentDataPath + "/gamesave1.save"));
+        GameObject.Find("LoadGamePanel").transform.GetChild(2).GetComponent<Button>().gameObject.SetActive(File.Exists(Application.persistentDataPath + "/gamesave2.save"));
+        GameObject.Find("LoadGamePanel").transform.GetChild(3).GetComponent<Button>().gameObject.SetActive(File.Exists(Application.persistentDataPath + "/gamesave3.save"));
+    }
+    public void handleCloseLoadGamePopup()
+    {
+        loadGameUI.enabled = false;
     }
 
+    public void handleLoadSlotOne()
+    {
+        PlayerPrefs.SetInt("saveSlot", 1);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(1);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().load(1);
+        gameSelected(false);
+    }
+
+    public void handleLoadSlotTwo()
+    {
+        PlayerPrefs.SetInt("saveSlot", 2);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(2);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().load(2);
+        gameSelected(false);
+    }
+
+    public void handleLoadSlotThree()
+    {
+        PlayerPrefs.SetInt("saveSlot", 3);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(3);
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().load(3);
+        gameSelected(false);
+    }
+
+    // MAIN MENU BUTTONS
     public void handleOptionsButtonHit()
     {
         optionsUI.enabled = true;
@@ -78,7 +171,14 @@ public class UIController : MonoBehaviour
     {
         Application.Quit();
     }
+    public void handleBackButtonHit()
+    {
+        optionsUI.enabled = false;
+        achievementsUI.enabled = false;
+        creditsUI.enabled = false;
+    }
 
+    // PAUSE MENU
     public void handleResumeButtonHit()
     {
         Time.timeScale = 1;
@@ -89,32 +189,16 @@ public class UIController : MonoBehaviour
         PlayerController.setPauseUIVisible(false);
     }
 
-    public void handleBackButtonHit()
-    {
-        optionsUI.enabled = false;
-        achievementsUI.enabled = false;
-        creditsUI.enabled = false;
-    }
-
-    /*
-     * This handles serializing the save data to a file
-     */
     public void handleSaveAndQuitButtonPushed()
     {
-        // Handle save eventually
+        saveAndLoadManager.GetComponent<SaveAndLoadController>().save();
         pauseUI.enabled = false;
         mainMenuUI.enabled = true;
         PlayerController.setPauseUIVisible(false);
         toggleScriptsOnStart(false);
-
-        SaveState save = saveAndLoadManager.GetComponent<SaveAndLoadController>().createSaveState();
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
-        bf.Serialize(file, save);
-        file.Close();
-        Debug.Log("Game saved");
     }
 
+    // HELPER METHODS FOR GAME START/END 
     private void lockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;

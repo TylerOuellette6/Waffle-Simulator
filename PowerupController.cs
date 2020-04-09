@@ -20,11 +20,11 @@ public class PowerupController : MonoBehaviour
         waffle = GameObject.Find("Waffle");
         waffleController = waffle.GetComponent<PlayerController>();
 
-        GameObject mouse = GameObject.Find("Mouse");
-        superSpeedPowerup = mouse.transform.Find("Super Speed Powerup").gameObject;
-
         GameObject frenchToast = GameObject.Find("French Toast");
         superJumpPowerup = frenchToast.transform.Find("Super Jump Powerup").gameObject;
+
+        GameObject mouse = GameObject.Find("Mouse");
+        superSpeedPowerup = mouse.transform.Find("Super Speed Powerup").gameObject;
 
         GameObject elffaw = GameObject.Find("Elffaw");
         superMiniPowerup = elffaw.transform.Find("Super Mini Powerup").gameObject;

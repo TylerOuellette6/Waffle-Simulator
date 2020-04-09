@@ -13,6 +13,8 @@ public class SaveState
     public List<string> startedQuests = new List<string>();
     public List<string> finishedQuests = new List<string>();
     public Dictionary<string, string> finishedAchievements = new Dictionary<string, string>();
+    public List<string> permanentInventoryItems = new List<string>();
+    public List<string> tempInventoryItems = new List<string>();
 
 
     //SaveState()
