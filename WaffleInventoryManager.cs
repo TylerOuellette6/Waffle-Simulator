@@ -63,19 +63,26 @@ public class WaffleInventoryManager : MonoBehaviour
 
     }
 
-    public async void addTempItemToInventory(GameObject newInventoryItem)
+    public void addTempItemToInventory(GameObject newInventoryItem)
     {
         if (inventoryItems.Count >= 8)
         {
-            inventoryFullErrorUI.enabled = true;
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            inventoryFullErrorUI.enabled = false;
-        } else
+            StartCoroutine(showErrorForTwoSeconds());
+        } 
+        else
         {
+            newInventoryItem.GetComponent<InventoryItemBehavior>().enabled = false;
             inventoryItems.Add(newInventoryItem);
             newInventoryItem.SetActive(false);
             updateInventoryUI(false);
         }
+    }
+
+    IEnumerator showErrorForTwoSeconds()
+    {
+        inventoryFullErrorUI.enabled = true;
+        yield return new WaitForSeconds(2);
+        inventoryFullErrorUI.enabled = false;
     }
 
     private void checkSoupCount()
@@ -199,7 +206,10 @@ public class WaffleInventoryManager : MonoBehaviour
         {
             itemUI.transform.localPosition = new Vector3(temporaryInventoryItemXPosition, temporaryInventoryItemYPosition, 0);
         }
-        itemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<InventoryItem>().image;
+        if(inventoryItem.GetComponent<InventoryItem>().image != null)
+        {
+            itemUI.transform.GetChild(0).GetComponent<Image>().sprite = inventoryItem.GetComponent<InventoryItem>().image;
+        }
         itemUI.transform.GetChild(1).GetComponent<Text>().text = inventoryItem.name;
         return itemUI;
     }
@@ -255,6 +265,7 @@ public class WaffleInventoryManager : MonoBehaviour
         GameObject itemToRemove = inventoryItems[indexToRemove];
         itemToRemove.transform.position = playerPosition + new Vector3 (5, 0, 5);
         itemToRemove.SetActive(true);
+        itemToRemove.GetComponent<InventoryItemBehavior>().enabled = true;
 
         inventoryItems.Remove(itemToRemove);
         temporaryInventoryItemXPosition = -300;

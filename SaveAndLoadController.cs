@@ -117,7 +117,6 @@ public class SaveAndLoadController : MonoBehaviour
                         else
                         {
                             WaffleQuestController.completeQuest(quest);
-
                         }
                     }
                 }

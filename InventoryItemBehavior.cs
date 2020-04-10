@@ -20,12 +20,12 @@ public class InventoryItemBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((inventoryObj.transform.position - playerObj.transform.position).magnitude < 20.0f && !nearInventoryObj)
+        if((inventoryObj.transform.position - playerObj.transform.position).magnitude < 24.0f && !nearInventoryObj)
         {
             pressFToPickUp.enabled = true;
             nearInventoryObj = true;
         }
-        if((inventoryObj.transform.position - playerObj.transform.position).magnitude > 20.0f && nearInventoryObj)
+        if((inventoryObj.transform.position - playerObj.transform.position).magnitude > 24.0f && nearInventoryObj)
         {
             pressFToPickUp.enabled = false;
             nearInventoryObj = false;
@@ -59,6 +59,5 @@ public class InventoryItemBehavior : MonoBehaviour
             waffleInventoryManager.addTempItemToInventory(inventoryObj);
         }
         WaffleQuestController.checkIfItemCompletesQuest(inventoryObj);
-        inventoryObj.GetComponent<InventoryItemBehavior>().enabled = false;
     }
 }

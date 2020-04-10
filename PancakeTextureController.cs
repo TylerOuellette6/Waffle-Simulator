@@ -8,6 +8,7 @@ public class PancakeTextureController : MonoBehaviour
     public GameObject wholePancakeTexture;
     public GameObject pancakeTextureMissingPiece;
     public GameObject missingPancakePiece;
+    public GameObject tvObject;
 
     private bool hasPieceBeenShown = false;
 
@@ -27,6 +28,13 @@ public class PancakeTextureController : MonoBehaviour
             {
                 wholePancakeTexture.SetActive(true);
                 pancakeTextureMissingPiece.SetActive(false);
+            }
+            if(currentQuest.questName.Equals("TV Topple") && !currentQuest.getCompleted())
+            {
+                if(tvObject.transform.position.y < 30)
+                {
+                    currentQuest.setConditionMetForCompletion(true);
+                }
             }
         }
         

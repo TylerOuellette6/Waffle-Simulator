@@ -28,17 +28,7 @@ public class PowerupController : MonoBehaviour
 
         GameObject elffaw = GameObject.Find("Elffaw");
         superMiniPowerup = elffaw.transform.Find("Super Mini Powerup").gameObject;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (waffle.transform.position.y < -2)
-        {
-            Vector3 curPos = waffle.transform.position;
-            waffle.transform.position = new Vector3(curPos.x, 1, curPos.z);
-        }
-    }
+    }  
 
     // SUPER SPEED
     public static void showSuperSpeedPowerup()

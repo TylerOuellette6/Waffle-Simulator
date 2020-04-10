@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     Transform cameraT;
     CharacterController controller;
 
+    private GameObject waffle;
+
     void Start()
     {
         cameraT = Camera.main.transform;
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour
         questUIVisible = false;
         inventoryUIVisible = false;
         pauseUIVisible = false;
+
+        waffle = GameObject.Find("Waffle");
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -54,6 +58,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(waffle.transform.position.y < -2)
+        {
+            Vector3 curPos = waffle.transform.position;
+            waffle.transform.position = new Vector3(curPos.x, 2, curPos.z);
+        }
         // input
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 inputDir = input.normalized;

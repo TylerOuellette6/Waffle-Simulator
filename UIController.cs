@@ -48,7 +48,7 @@ public class UIController : MonoBehaviour
 
     private void gameSelected(bool controlsUIVisible)
     {
-        if (!controlsUI)
+        if (!controlsUIVisible)
         {
             Time.timeScale = 1;
             lockCursor();
@@ -65,7 +65,7 @@ public class UIController : MonoBehaviour
 
     public void handleContinueButtonHit()
     {
-        if(mostRecentSaveSlot != 0)
+        if(mostRecentSaveSlot != 0 && File.Exists(Application.persistentDataPath + "/gamesave" + mostRecentSaveSlot + ".save"))
         {
             saveAndLoadManager.GetComponent<SaveAndLoadController>().load(mostRecentSaveSlot);
             gameSelected(false);
@@ -210,6 +210,8 @@ public class UIController : MonoBehaviour
         camera.GetComponent<ThirdPersonCamera>().enabled = toggle;
         waffle.GetComponent<PlayerController>().enabled = toggle;
         waffle.GetComponent<CharacterController>().enabled = true;
+        waffle.GetComponent<WaffleInventoryManager>().enabled = true;
+        waffle.GetComponent<WaffleQuestController>().enabled = true;
         GameObject.Find("Eugene").GetComponent<DogPatrolMovement>().enabled = toggle;
     }
 }
