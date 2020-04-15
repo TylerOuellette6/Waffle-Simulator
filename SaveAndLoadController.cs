@@ -8,18 +8,11 @@ public class SaveAndLoadController : MonoBehaviour
 {
     public GameObject waffle;
     public List<GameObject> npcs;
-    public int saveSlotNum;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private int saveSlotNum;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject superJumpPowerup;
+    public GameObject superSpeedPowerup;
+    public GameObject superMiniPower;
 
     public void save()
     {
@@ -90,8 +83,8 @@ public class SaveAndLoadController : MonoBehaviour
             file.Close();
 
             waffle.transform.position = new Vector3(save.playerPos[0], save.playerPos[1], save.playerPos[2]); // Load the player position
-            loadQuestList(save.startedQuests, false); // Load the started quest
-            loadQuestList(save.finishedQuests, true); // Load the finished quests
+            loadQuestList(save, false); // Load the started quest
+            loadQuestList(save, true); // Load the finished quests
             loadAchievementBanners(save.finishedAchievements);
             loadInventoryItems(save.tempInventoryItems, save.permanentInventoryItems);
 
@@ -99,8 +92,18 @@ public class SaveAndLoadController : MonoBehaviour
         }
     }
 
-    private void loadQuestList(List<string> questNames, bool finished)
+    private void loadQuestList(SaveState save, bool finished)
     {
+        List<string> questNames;
+        if (finished)
+        {
+            questNames = save.finishedQuests;
+        }
+        else
+        {
+            questNames = save.startedQuests;
+        }
+
         foreach(string questName in questNames)
         {
             foreach(GameObject npc in npcs)
@@ -118,6 +121,26 @@ public class SaveAndLoadController : MonoBehaviour
                         {
                             WaffleQuestController.completeQuest(quest);
                         }
+                    }
+                }
+            }
+        }
+
+        if (!finished)
+        {
+            foreach (GameObject npc in npcs)
+            {
+                foreach (Quest quest in npc.GetComponent<NPCQuestManager>().getQuests())
+                {
+                    if (save.finishedQuests.Contains(quest.questName))
+                    {
+                        quest.setCompleted(true);
+                    }
+                    if (!quest.getCompleted())
+                    {
+                        Debug.Log(quest.questName);
+                        npc.GetComponent<NPCQuestManager>().setTempCurrentQuest(quest);
+                        break;
                     }
                 }
             }
@@ -141,7 +164,22 @@ public class SaveAndLoadController : MonoBehaviour
         }
         foreach(string permanentItemName in permanentItems)
         {
-            waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(GameObject.Find(permanentItemName));
+            if(permanentItemName.Equals("Super Jump Powerup"))
+            {
+                waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(superJumpPowerup);
+            }
+            else if(permanentItemName.Equals("Super Speed Powerup"))
+            {
+                waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(superSpeedPowerup);
+            }
+            else if(permanentItemName.Equals("Super Mini Powerup"))
+            {
+                waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(superMiniPower);
+            }
+            else
+            {
+                waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(GameObject.Find(permanentItemName));
+            }
         }
     }
 
