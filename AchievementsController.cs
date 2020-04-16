@@ -42,6 +42,8 @@ public class AchievementsController : MonoBehaviour
     private static Canvas achievementDescriptionUI;
     private static Text achievementNameText;
     private static Text achievementDescriptionText;
+
+    private static AudioSource unlockedSound;
     private void Start()
     {
         achievementUnlockedPopup = GameObject.Find("AchievementUnlockedUI").GetComponent<Canvas>();
@@ -55,6 +57,8 @@ public class AchievementsController : MonoBehaviour
         achievementDescriptionUI = GameObject.Find("QuestDescriptionUI").GetComponent<Canvas>();
         achievementDescriptionText = GameObject.Find("QuestDescriptionText").GetComponent<Text>();
         achievementNameText = GameObject.Find("QuestDescriptionTitleText").GetComponent<Text>();
+
+        unlockedSound = GameObject.Find("Achievement").GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -240,6 +244,7 @@ public class AchievementsController : MonoBehaviour
 
     private async static void showAchievementPopup(String achievementName)
     {
+        unlockedSound.Play();
         achievementUnlockedPanel.GetComponentInChildren<Text>().text = achievementName;
         achievementUnlockedPopup.enabled = true;
         await Task.Delay(TimeSpan.FromSeconds(3));

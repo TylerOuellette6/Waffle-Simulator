@@ -7,6 +7,7 @@ public class WaffleCollectibleManager : MonoBehaviour
 {
     private List<GameObject> collectiblesFound;
     public Text collectibleCountText;
+    public AudioSource collectibleSound;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class WaffleCollectibleManager : MonoBehaviour
 
     public void addCollectible(GameObject newCollectible)
     {
+        collectibleSound.Play();
         collectiblesFound.Add(newCollectible);
         // TODO: Add total when done
         collectibleCountText.text = collectiblesFound.Count + " / TOTAL"; 

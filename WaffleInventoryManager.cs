@@ -37,6 +37,8 @@ public class WaffleInventoryManager : MonoBehaviour
     private bool superMiniEnabled = false;
     private Text superMiniText;
 
+    public AudioSource inventoryPickup;
+
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +73,7 @@ public class WaffleInventoryManager : MonoBehaviour
         } 
         else
         {
+            inventoryPickup.Play();
             newInventoryItem.GetComponent<InventoryItemBehavior>().enabled = false;
             inventoryItems.Add(newInventoryItem);
             newInventoryItem.SetActive(false);
@@ -102,6 +105,7 @@ public class WaffleInventoryManager : MonoBehaviour
 
     public void addPermanentItemToInventory(GameObject newInventoryItem)
     {
+        inventoryPickup.Play();
         permanentItems.Add(newInventoryItem);
         newInventoryItem.SetActive(false);
         updateInventoryUI(true);

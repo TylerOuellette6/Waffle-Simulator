@@ -9,6 +9,7 @@ public class DialogueTrigger : MonoBehaviour
     public GameObject playerObj;
     public NPCQuestManager npcQuestManager;
     public DialogueManager dialogueManager;
+    public AudioSource dialogueMusic;
 
     private bool nearNPC;
     private float triggerDist = 20.0f;
@@ -54,6 +55,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void TriggerDialogue()
     {
+        dialogueMusic.Play();
         dialogueManager.setNPCQuestManager(npcQuestManager);
         pressFToTalkUI.enabled = false;
         List<Quest> quests = npcQuestManager.getQuests();
@@ -76,6 +78,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void EndDialogue()
     {
+        dialogueMusic.Stop();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         FindObjectOfType<DialogueManager>().EndDialogue();
