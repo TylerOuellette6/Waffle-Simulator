@@ -35,4 +35,9 @@ public class WaffleCollectibleManager : MonoBehaviour
         }
         // TODO: Add how many final butters
     }
+
+    public List<GameObject> getCollectiblesList()
+    {
+        return collectiblesFound;
+    }
 }

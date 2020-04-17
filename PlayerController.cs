@@ -138,7 +138,6 @@ public class PlayerController : MonoBehaviour
 
     void Move(Vector2 inputDir, bool running)
     {
-        walking.Play();
         if (inputDir != Vector2.zero)
         {
             float targetRotation = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;

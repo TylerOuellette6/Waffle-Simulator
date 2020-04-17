@@ -70,6 +70,16 @@ public class SaveAndLoadController : MonoBehaviour
         save.tempInventoryItems = tempInventoryItems;
         save.permanentInventoryItems = permanentInventoryItems;
 
+        // COLLECTIBLES
+        List<string> collectiblesFound = new List<string>();
+
+        foreach(GameObject collectible in waffle.GetComponent<WaffleCollectibleManager>().getCollectiblesList())
+        {
+            collectiblesFound.Add(collectible.name);
+        }
+
+        save.collectiblesFound = collectiblesFound;
+
         return save;
     }
 
@@ -87,6 +97,7 @@ public class SaveAndLoadController : MonoBehaviour
             loadQuestList(save, true); // Load the finished quests
             loadAchievementBanners(save.finishedAchievements);
             loadInventoryItems(save.tempInventoryItems, save.permanentInventoryItems);
+            loadCollectibles(save);
 
             Debug.Log("Game Loaded");
         }
@@ -180,6 +191,17 @@ public class SaveAndLoadController : MonoBehaviour
             {
                 waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(GameObject.Find(permanentItemName));
             }
+        }
+    }
+
+    private void loadCollectibles(SaveState save)
+    {
+        List<string> collectibles = save.collectiblesFound;
+        foreach(string collectibleName in collectibles)
+        {
+            GameObject tempCollectible = GameObject.Find(collectibleName);
+            tempCollectible.SetActive(false);
+            waffle.GetComponent<WaffleCollectibleManager>().addCollectible(tempCollectible);
         }
     }
 
