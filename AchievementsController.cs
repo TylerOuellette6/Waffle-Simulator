@@ -34,7 +34,9 @@ public class AchievementsController : MonoBehaviour
     private static bool goalUnlocked = false;
     private static bool soupUnlocked = false;
     private static bool thanksForPlayingUnlocked = false;
+
     private static int countertopsItemCounter = 0;
+    private static int blocksCleanedUp = 0;
 
     private static int achievementBannerXPos = -500;
     private static int achievementsBannerYPos = 200;
@@ -186,11 +188,22 @@ public class AchievementsController : MonoBehaviour
         createAchievementBanner("\"Cleaning\"", "\"Clean\" everything off the counter by knocking it all off.");
     }
 
+    public static void checkIfBlocksCleanedUp()
+    {
+        blocksCleanedUp++;
+        if(blocksCleanedUp >= 8)
+        {
+            unlockCleaning();
+        }
+    }
+
     public static void unlockCleaning()
     {
         if (!cleaningUnlocked)
         {
-
+            cleaningUnlocked = true;
+            showAchievementPopup("Cleaning");
+            createAchievementBanner("Cleaning", "Clean up all of the small human’s blocks and return them to their box.");
         }
     }
 
