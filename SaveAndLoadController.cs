@@ -93,10 +93,10 @@ public class SaveAndLoadController : MonoBehaviour
             file.Close();
 
             waffle.transform.position = new Vector3(save.playerPos[0], save.playerPos[1], save.playerPos[2]); // Load the player position
+            loadInventoryItems(save.tempInventoryItems, save.permanentInventoryItems);
             loadQuestList(save, false); // Load the started quest
             loadQuestList(save, true); // Load the finished quests
             loadAchievementBanners(save.finishedAchievements);
-            loadInventoryItems(save.tempInventoryItems, save.permanentInventoryItems);
             loadCollectibles(save);
 
             Debug.Log("Game Loaded");
@@ -125,6 +125,7 @@ public class SaveAndLoadController : MonoBehaviour
                     {
                         if (!finished)
                         {
+                            quest.setAccepted(true);
                             npc.GetComponent<NPCQuestManager>().setTempCurrentQuest(quest);
                             WaffleQuestController.addQuestToList(quest);
                         }
@@ -149,7 +150,6 @@ public class SaveAndLoadController : MonoBehaviour
                     }
                     if (!quest.getCompleted())
                     {
-                        Debug.Log(quest.questName);
                         npc.GetComponent<NPCQuestManager>().setTempCurrentQuest(quest);
                         break;
                     }
@@ -171,6 +171,7 @@ public class SaveAndLoadController : MonoBehaviour
     {
         foreach(string tempItemName in tempItems)
         {
+            //GameObject.Find(tempItemName).SetActive(false);
             waffle.GetComponent<WaffleInventoryManager>().addTempItemToInventory(GameObject.Find(tempItemName));
         }
         foreach(string permanentItemName in permanentItems)
@@ -189,6 +190,7 @@ public class SaveAndLoadController : MonoBehaviour
             }
             else
             {
+                //GameObject.Find(permanentItemName).SetActive(false);
                 waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(GameObject.Find(permanentItemName));
             }
         }

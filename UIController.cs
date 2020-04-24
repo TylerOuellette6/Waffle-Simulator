@@ -67,8 +67,8 @@ public class UIController : MonoBehaviour
     {
         if(mostRecentSaveSlot != 0 && File.Exists(Application.persistentDataPath + "/gamesave" + mostRecentSaveSlot + ".save"))
         {
-            saveAndLoadManager.GetComponent<SaveAndLoadController>().load(mostRecentSaveSlot);
             gameSelected(false);
+            saveAndLoadManager.GetComponent<SaveAndLoadController>().load(mostRecentSaveSlot);
         }
     }
 
@@ -130,25 +130,25 @@ public class UIController : MonoBehaviour
     public void handleLoadSlotOne()
     {
         PlayerPrefs.SetInt("saveSlot", 1);
+        gameSelected(false);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(1);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().load(1);
-        gameSelected(false);
     }
 
     public void handleLoadSlotTwo()
     {
         PlayerPrefs.SetInt("saveSlot", 2);
+        gameSelected(false);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(2);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().load(2);
-        gameSelected(false);
     }
 
     public void handleLoadSlotThree()
     {
         PlayerPrefs.SetInt("saveSlot", 3);
+        gameSelected(false);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(3);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().load(3);
-        gameSelected(false);
     }
 
     // MAIN MENU BUTTONS

@@ -67,6 +67,7 @@ public class WaffleInventoryManager : MonoBehaviour
 
     public void addTempItemToInventory(GameObject newInventoryItem)
     {
+        checkSoupCount();
         if (inventoryItems.Count >= 8)
         {
             StartCoroutine(showErrorForTwoSeconds());
@@ -115,11 +116,15 @@ public class WaffleInventoryManager : MonoBehaviour
     {
         if (!permanent)
         {
+            Debug.Log("updateInventoryUI called");
             foreach (GameObject inventoryUIItem in inventoryUIItems)
             {
                 Destroy(inventoryUIItem);
             }
-            inventoryUIItems.Clear();
+            if(inventoryUIItems.Count > 0)
+            {
+                inventoryUIItems.Clear();
+            }
             for (int i = 0; i < inventoryItems.Count; i++)
             {
                 if (i >= 4)
@@ -144,7 +149,7 @@ public class WaffleInventoryManager : MonoBehaviour
             {
                 Destroy(permanentUIItem);
             }
-            inventoryUIItems.Clear();
+            permanentUIItems.Clear();
             for (int i = 0; i < permanentItems.Count; i++)
             {
                 createInventoryItemPrefab(permanentItems[i], permanent);
