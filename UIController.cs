@@ -87,29 +87,33 @@ public class UIController : MonoBehaviour
     {
         PlayerPrefs.SetInt("saveSlot", 1);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(1);
-        gameSelected(true);
         controlsUI.enabled = true;
+        mainMenuUI.enabled = false;
+        newGameUI.enabled = false;
     }
 
     public void handleNewGameSaveSlotTwo()
     {
         PlayerPrefs.SetInt("saveSlot", 2);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(2);
-        gameSelected(true);
         controlsUI.enabled = true;
+        mainMenuUI.enabled = false;
+        newGameUI.enabled = false;
     }
 
     public void handleNewGameSaveSlotThree()
     {
         PlayerPrefs.SetInt("saveSlot", 3);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(3);
-        gameSelected(true);
         controlsUI.enabled = true;
+        mainMenuUI.enabled = false;
+        newGameUI.enabled = false;
     }
 
     public void handleCloseControlsPopup()
     {
         lockCursor();
+        gameSelected(true);
         controlsUI.enabled = false;
         Time.timeScale = 1;
     }
@@ -187,6 +191,8 @@ public class UIController : MonoBehaviour
         waffle.GetComponent<CharacterController>().enabled = true;
         lockCursor();
         PlayerController.setPauseUIVisible(false);
+        optionsUI.enabled = false;
+        achievementsUI.enabled = false;
     }
 
     public void handleSaveAndQuitButtonPushed()

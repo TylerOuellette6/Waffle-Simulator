@@ -116,7 +116,6 @@ public class WaffleInventoryManager : MonoBehaviour
     {
         if (!permanent)
         {
-            Debug.Log("updateInventoryUI called");
             foreach (GameObject inventoryUIItem in inventoryUIItems)
             {
                 Destroy(inventoryUIItem);

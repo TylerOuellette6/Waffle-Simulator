@@ -53,7 +53,6 @@ public class DialogueManager : MonoBehaviour
             {
                 sentences.Enqueue(sentence);
             }
-            quest.setCompleted(true);
         }
 
         DisplayNextSentence();
@@ -63,6 +62,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (sentences.Count == 0)
         {
+            quest.setCompleted(true);
             EndDialogue();
             return;
         }

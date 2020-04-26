@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public Canvas questUI;
     public Canvas inventoryUI;
     public Canvas pauseUI;
+    public Canvas questDescriptionUI;
     private bool questUIVisible;
     private bool inventoryUIVisible;
     private static bool pauseUIVisible;
@@ -80,7 +81,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && !inventoryUIVisible)
         {
             Cursor.visible = !questUIVisible;
-            if (questUIVisible) { 
+            if (questUIVisible) {
+                questDescriptionUI.enabled = false;
                 Cursor.lockState = CursorLockMode.Locked;  
             }
             else

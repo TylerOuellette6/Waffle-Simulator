@@ -74,9 +74,9 @@ public class WaffleQuestController : MonoBehaviour
         {
             waffleInventoryManager.removeInventoryItemAfterQuest(completedQuest.getObjectNeededForCompletion().name);
         }
-        NPCQuestManager.moveNPCAfterQuest(completedQuest);
         finishedQuests.Add(completedQuest);
         startedQuests.Remove(completedQuest);
+        NPCQuestManager.moveNPCAfterQuest(completedQuest);
         IncompleteQuestUIManager.updateScrollList(startedQuests);
         CompleteQuestUIManager.updateScrollList(finishedQuests);
     }

@@ -19,7 +19,7 @@ public class DestroyTVQuestController : MonoBehaviour
             if ((currentQuest.questName.Equals("Missing Piece") && currentQuest.getCompleted()) ||
             (currentQuest.questName.Equals("TV Topple") && !currentQuest.getCompleted()))
             {
-                if (tvYPos < 30)
+                if (tvYPos < 75)
                 {
                     currentQuest.setConditionMetForCompletion(true);
                 }
