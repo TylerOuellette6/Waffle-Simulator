@@ -16,7 +16,7 @@ public class CountertopItemController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(countertopObject.transform.position.y < 85)
+        if(countertopObject.transform.position.y < 100)
         {
             SetHasFallen(true, false);
         }

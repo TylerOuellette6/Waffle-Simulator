@@ -29,10 +29,10 @@ public class AchievementsController : MonoBehaviour
     private static bool theMostButterUnlocked = false;
     private static bool quoteCleaningUnlocked = false;
     private static bool cleaningUnlocked = false;
-    private static bool endicottUnlocked = false;
     private static bool meetTheDeveloperUnlocked = false;
     private static bool goalUnlocked = false;
     private static bool soupUnlocked = false;
+    private static bool veggieTalesTapeUnlocked = false;
     private static bool thanksForPlayingUnlocked = false;
 
     private static int countertopsItemCounter = 0;
@@ -46,6 +46,9 @@ public class AchievementsController : MonoBehaviour
     private static Text achievementDescriptionText;
 
     private static AudioSource unlockedSound;
+
+    public GameObject pictureFrame;
+    public GameObject waffle;
     private void Start()
     {
         achievementUnlockedPopup = GameObject.Find("AchievementUnlockedUI").GetComponent<Canvas>();
@@ -65,10 +68,14 @@ public class AchievementsController : MonoBehaviour
 
     private void Update()
     {
-        // TODO: Fix this number to reflect total num of achievements
-        if(achievementsCount >= 20)
+        if(achievementsCount >= 16)
         {
             unlockThanksForPlaying();
+        }
+
+        if ((waffle.transform.position - pictureFrame.transform.position).magnitude < 50.0f)
+        {
+            unlockMeetTheDeveloper();
         }
     }
     public static void unlockEllfawExpeditions()
@@ -163,7 +170,7 @@ public class AchievementsController : MonoBehaviour
 
     public static void unlockTheMostButter()
     {
-        if (!someMoreMoreButterUnlocked)
+        if (!theMostButterUnlocked)
         {
             someButterUnlocked = true;
             showAchievementPopup("The Most Butter");
@@ -175,7 +182,7 @@ public class AchievementsController : MonoBehaviour
     {
         countertopsItemCounter++;
         //Debug.Log(countertopsItemCounter);
-        if(countertopsItemCounter >= 8 && !quoteCleaningUnlocked)
+        if(countertopsItemCounter >= 18 && !quoteCleaningUnlocked)
         {
             unlockQuoteCleaning();
         }
@@ -207,19 +214,13 @@ public class AchievementsController : MonoBehaviour
         }
     }
 
-    public static void unlockEndicott()
-    {
-        if (!endicottUnlocked)
-        {
-
-        }
-    }
-
-    public static void unlockMeetTheDeveloper()
+    public void unlockMeetTheDeveloper()
     {
         if (!meetTheDeveloperUnlocked)
         {
-
+            meetTheDeveloperUnlocked = true;
+            showAchievementPopup("Meet the Developer");
+            createAchievementBanner("Meet the Developer", "Find the picture of The Developer.");
         }
     }
 
@@ -242,6 +243,17 @@ public class AchievementsController : MonoBehaviour
             showAchievementPopup("S O U P");
             createAchievementBanner("S O U P", "You madman! You filled your entire inventory with soup! What’s wrong with you?!");
         }
+    }
+
+    public static void unlockVeggieTalesTape()
+    {
+        if (!veggieTalesTapeUnlocked)
+        {
+            veggieTalesTapeUnlocked = true;
+            showAchievementPopup("Veggie Tales Tape");
+            createAchievementBanner("Veggie Tales Tape", "You found the one Veggie Tales VHS tape amongst the other VHS tapes! Congrats?");
+        }
+
     }
 
     public static void unlockThanksForPlaying()
@@ -294,6 +306,11 @@ public class AchievementsController : MonoBehaviour
     public static Dictionary<string, string> getFinishedAchievementsList()
     {
         return finishedAchievementsList;
+    }
+
+    public static void setAchievementCount(int count)
+    {
+        achievementsCount = count;
     }
 
 

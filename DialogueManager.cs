@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
     public Text nameText;
     public Text dialogueText;
     public GameObject camera;
+    private AudioSource[] allAudioSources;
 
     private NPCQuestManager npcQuestManager;
 
@@ -92,10 +93,20 @@ public class DialogueManager : MonoBehaviour
             WaffleQuestController.completeQuest(quest);
             this.quest = null;
         }
+        stopAllAudio();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         dialogueUI.enabled = false;
         camera.GetComponent<ThirdPersonCamera>().enabled = true;
+    }
+
+    private void stopAllAudio()
+    {
+        allAudioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        foreach(AudioSource audio in allAudioSources)
+        {
+            audio.Stop();
+        }
     }
 
     public void AcceptButtonClicked()

@@ -12,7 +12,7 @@ public class WaffleCollectibleManager : MonoBehaviour
     void Start()
     {
         collectiblesFound = new List<GameObject>();
-        collectibleCountText.text = collectiblesFound.Count + " / TOTAL";
+        collectibleCountText.text = collectiblesFound.Count + " / 25";
     }
 
     public void addCollectible(GameObject newCollectible)
@@ -20,7 +20,7 @@ public class WaffleCollectibleManager : MonoBehaviour
         collectibleSound.Play();
         collectiblesFound.Add(newCollectible);
         // TODO: Add total when done
-        collectibleCountText.text = collectiblesFound.Count + " / TOTAL"; 
+        collectibleCountText.text = collectiblesFound.Count + " / 25"; 
         if(collectiblesFound.Count == 5)
         {
             AchievementsController.unlockSomeButter();
@@ -33,7 +33,10 @@ public class WaffleCollectibleManager : MonoBehaviour
         {
             AchievementsController.unlockSomeMoreMoreButter();
         }
-        // TODO: Add how many final butters
+        if (collectiblesFound.Count == 25)
+        {
+            AchievementsController.unlockTheMostButter();
+        }
     }
 
     public List<GameObject> getCollectiblesList()

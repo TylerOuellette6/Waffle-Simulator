@@ -23,7 +23,10 @@ public class WaffleQuestController : MonoBehaviour
 
     public static void addQuestToList(Quest newQuest)
     {
-        startedQuests.Add(newQuest);
+        if (!startedQuests.Contains(newQuest))
+        {
+            startedQuests.Add(newQuest);
+        }
 
         IncompleteQuestUIManager.updateScrollList(startedQuests);
 

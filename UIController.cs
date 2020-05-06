@@ -19,6 +19,8 @@ public class UIController : MonoBehaviour
     public Canvas loadGameUI;
     public Canvas controlsUI;
 
+    public AudioSource mainMenuMusic;
+
     public Camera camera;
     public GameObject waffle;
 
@@ -48,6 +50,7 @@ public class UIController : MonoBehaviour
 
     private void gameSelected(bool controlsUIVisible)
     {
+        mainMenuMusic.Stop();
         if (!controlsUIVisible)
         {
             Time.timeScale = 1;
@@ -112,6 +115,7 @@ public class UIController : MonoBehaviour
 
     public void handleCloseControlsPopup()
     {
+        mainMenuMusic.Stop();
         lockCursor();
         gameSelected(true);
         controlsUI.enabled = false;
@@ -197,6 +201,7 @@ public class UIController : MonoBehaviour
 
     public void handleSaveAndQuitButtonPushed()
     {
+        mainMenuMusic.Play();
         saveAndLoadManager.GetComponent<SaveAndLoadController>().save();
         pauseUI.enabled = false;
         mainMenuUI.enabled = true;

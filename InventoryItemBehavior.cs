@@ -42,6 +42,10 @@ public class InventoryItemBehavior : MonoBehaviour
         {
             countertopItemController.SetHasFallen(true, true);
         }
+        if (inventoryObj.name.Equals("Veggie Tales Tape"))
+        {
+            AchievementsController.unlockVeggieTalesTape();
+        }
         pressFToPickUp.enabled = false;
         InventoryItem item = inventoryObj.GetComponent<InventoryItem>();
         WaffleInventoryManager waffleInventoryManager= playerObj.GetComponent<WaffleInventoryManager>();

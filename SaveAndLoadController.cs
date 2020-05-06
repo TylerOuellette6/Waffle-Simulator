@@ -160,6 +160,7 @@ public class SaveAndLoadController : MonoBehaviour
 
     private void loadAchievementBanners(Dictionary<string, string> finishedAchievements)
     {
+        AchievementsController.setAchievementCount(finishedAchievements.Count);
         foreach(KeyValuePair<string, string> achievement in finishedAchievements)
         {
             AchievementsController.createAchievementBanner(achievement.Key, achievement.Value);
@@ -179,6 +180,7 @@ public class SaveAndLoadController : MonoBehaviour
             if(permanentItemName.Equals("Super Jump Powerup"))
             {
                 waffle.GetComponent<WaffleInventoryManager>().addPermanentItemToInventory(superJumpPowerup);
+                waffle.GetComponent<PlayerController>().setRunSpeed(50);
             }
             else if(permanentItemName.Equals("Super Speed Powerup"))
             {
@@ -201,6 +203,7 @@ public class SaveAndLoadController : MonoBehaviour
         List<string> collectibles = save.collectiblesFound;
         foreach(string collectibleName in collectibles)
         {
+            Debug.Log(collectibleName);
             GameObject tempCollectible = GameObject.Find(collectibleName);
             tempCollectible.SetActive(false);
             waffle.GetComponent<WaffleCollectibleManager>().addCollectible(tempCollectible);
