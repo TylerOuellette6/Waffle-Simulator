@@ -65,7 +65,7 @@ public class PowerupController : MonoBehaviour
         else
         {
             // TODO: Come back to this 
-            waffleController.setJumpHeight(20);
+            waffleController.setJumpHeight(40);
         }
     }
 

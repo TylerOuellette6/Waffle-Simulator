@@ -203,7 +203,6 @@ public class SaveAndLoadController : MonoBehaviour
         List<string> collectibles = save.collectiblesFound;
         foreach(string collectibleName in collectibles)
         {
-            Debug.Log(collectibleName);
             GameObject tempCollectible = GameObject.Find(collectibleName);
             tempCollectible.SetActive(false);
             waffle.GetComponent<WaffleCollectibleManager>().addCollectible(tempCollectible);

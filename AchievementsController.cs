@@ -278,6 +278,7 @@ public class AchievementsController : MonoBehaviour
 
     public static void createAchievementBanner(String achievementName, String description)
     {
+        finishedAchievementsList.Add(achievementName, description);
         GameObject newAchievementBanner = (GameObject)Instantiate(singleAchievementBannerPrefab);
         Button achievementButton = newAchievementBanner.GetComponent<Button>();
         achievementButton.onClick.AddListener(delegate { handleAchievementClicked(achievementName, description); });
@@ -297,7 +298,6 @@ public class AchievementsController : MonoBehaviour
 
     private static void handleAchievementClicked(String achievementName, String description)
     {
-        finishedAchievementsList.Add(achievementName, description);
         achievementDescriptionUI.enabled = true;
         achievementNameText.text = achievementName;
         achievementDescriptionText.text = description;

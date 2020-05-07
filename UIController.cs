@@ -88,6 +88,7 @@ public class UIController : MonoBehaviour
 
     public void handleNewGameSaveSlotOne()
     {
+        mostRecentSaveSlot = 1;
         PlayerPrefs.SetInt("saveSlot", 1);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(1);
         controlsUI.enabled = true;
@@ -97,6 +98,7 @@ public class UIController : MonoBehaviour
 
     public void handleNewGameSaveSlotTwo()
     {
+        mostRecentSaveSlot = 2;
         PlayerPrefs.SetInt("saveSlot", 2);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(2);
         controlsUI.enabled = true;
@@ -106,6 +108,7 @@ public class UIController : MonoBehaviour
 
     public void handleNewGameSaveSlotThree()
     {
+        mostRecentSaveSlot = 3;
         PlayerPrefs.SetInt("saveSlot", 3);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(3);
         controlsUI.enabled = true;
@@ -137,6 +140,7 @@ public class UIController : MonoBehaviour
 
     public void handleLoadSlotOne()
     {
+        mostRecentSaveSlot = 1;
         PlayerPrefs.SetInt("saveSlot", 1);
         gameSelected(false);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(1);
@@ -145,6 +149,7 @@ public class UIController : MonoBehaviour
 
     public void handleLoadSlotTwo()
     {
+        mostRecentSaveSlot = 2;
         PlayerPrefs.SetInt("saveSlot", 2);
         gameSelected(false);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(2);
@@ -153,6 +158,7 @@ public class UIController : MonoBehaviour
 
     public void handleLoadSlotThree()
     {
+        mostRecentSaveSlot = 3;
         PlayerPrefs.SetInt("saveSlot", 3);
         gameSelected(false);
         saveAndLoadManager.GetComponent<SaveAndLoadController>().setSaveSlot(3);
