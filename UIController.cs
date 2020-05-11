@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -213,6 +214,7 @@ public class UIController : MonoBehaviour
         mainMenuUI.enabled = true;
         PlayerController.setPauseUIVisible(false);
         toggleScriptsOnStart(false);
+        SceneManager.LoadScene("MainScene");
     }
 
     // HELPER METHODS FOR GAME START/END 

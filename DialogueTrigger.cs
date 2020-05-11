@@ -69,6 +69,7 @@ public class DialogueTrigger : MonoBehaviour
                 break;
             }
         }
+        Debug.Log("QUEST: " + tempQuest.questName + "\tDONE: " + tempQuest.getConditionMetForCompletion());
         if((tempQuest != null && !tempQuest.getAccepted()) 
             || (tempQuest.getConditionMetForCompletion() && !tempQuest.getCompleted()))
         {

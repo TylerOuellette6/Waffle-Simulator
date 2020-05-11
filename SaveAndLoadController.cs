@@ -164,7 +164,6 @@ public class SaveAndLoadController : MonoBehaviour
         foreach(KeyValuePair<string, string> achievement in finishedAchievements)
         {
             AchievementsController.createAchievementBanner(achievement.Key, achievement.Value);
-
         }
     }
 
@@ -172,6 +171,7 @@ public class SaveAndLoadController : MonoBehaviour
     {
         foreach(string tempItemName in tempItems)
         {
+            Debug.Log(tempItemName);
             //GameObject.Find(tempItemName).SetActive(false);
             waffle.GetComponent<WaffleInventoryManager>().addTempItemToInventory(GameObject.Find(tempItemName));
         }
